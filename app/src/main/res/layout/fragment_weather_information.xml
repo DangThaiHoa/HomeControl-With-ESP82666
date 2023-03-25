@@ -17,7 +17,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@drawable/toolbar">
+            android:background="@drawable/toolbar"
+            android:elevation="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -40,7 +41,7 @@
                 android:layout_width="170dp"
                 android:layout_height="150dp"
                 android:elevation="10dp"
-                app:cardBackgroundColor="#00FF0D"
+                app:cardBackgroundColor="@color/green"
                 app:cardCornerRadius="20dp"
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="20dp">
@@ -78,7 +79,7 @@
                 android:layout_width="170dp"
                 android:layout_height="150dp"
                 android:elevation="10dp"
-                app:cardBackgroundColor="#00FF0D"
+                app:cardBackgroundColor="@color/green"
                 app:cardCornerRadius="20dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="20dp">
@@ -124,7 +125,7 @@
                 android:layout_width="250dp"
                 android:layout_height="300dp"
                 android:elevation="10dp"
-                app:cardBackgroundColor="#00FF0D"
+                app:cardBackgroundColor="@color/green"
                 app:cardCornerRadius="20dp">
 
                 <RelativeLayout
