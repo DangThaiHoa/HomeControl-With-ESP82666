@@ -38,11 +38,11 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp">
+                android:layout_marginTop="30dp">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="350dp"
-                    android:layout_height="300dp"
+                    android:layout_height="290dp"
                     android:elevation="10dp"
                     app:cardBackgroundColor="@color/red"
                     app:cardCornerRadius="20dp">
@@ -52,17 +52,6 @@
                         android:layout_height="290dp"
                         android:background="@drawable/card"
                         android:layout_marginTop="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/muli_black"
-                            android:text="Đóng"
-                            android:textColor="@color/black"
-                            android:textSize="25sp"
-                            android:layout_centerHorizontal="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginBottom="100dp"/>
 
                         <ImageView
                             android:layout_width="200dp"
@@ -76,9 +65,29 @@
                             android:layout_height="70dp"
                             android:src="@drawable/sun"
                             android:layout_alignParentStart="true"
-                            android:layout_marginTop="10dp"
                             android:layout_marginLeft="5dp"
                             android:padding="10dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Giếng Trời"
+                            android:fontFamily="@font/muli_black"
+                            android:textSize="17sp"
+                            android:textColor="@color/black"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="30dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/muli_black"
+                            android:text="Đóng"
+                            android:textColor="@color/black"
+                            android:textSize="25sp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="110dp"/>
 
                         <androidx.cardview.widget.CardView
                             android:layout_width="wrap_content"
@@ -96,8 +105,191 @@
                                 android:fontFamily="@font/muli_black"
                                 android:background="@color/green" />
 
-
                         </androidx.cardview.widget.CardView>
+
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="350dp"
+                    android:layout_height="300dp"
+                    android:elevation="10dp"
+                    app:cardBackgroundColor="@color/red"
+                    app:cardCornerRadius="20dp">
+
+                    <RelativeLayout
+                        android:layout_width="350dp"
+                        android:layout_height="290dp"
+                        android:background="@drawable/card"
+                        android:layout_marginTop="10dp">
+
+                        <RelativeLayout
+                            android:layout_width="175dp"
+                            android:layout_height="290dp"
+                            android:background="@drawable/card"
+                            android:layout_marginTop="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/muli_black"
+                                android:text="Nâng"
+                                android:textColor="@color/black"
+                                android:textSize="25sp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginBottom="95dp"/>
+
+                            <ImageView
+                                android:layout_width="175dp"
+                                android:layout_height="130dp"
+                                android:src="@drawable/hanging"
+                                android:padding="10dp"
+                                android:layout_marginTop="30dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Giá Treo"
+                                android:fontFamily="@font/muli_black"
+                                android:textSize="17sp"
+                                android:textColor="@color/black"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"/>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:elevation="10dp"
+                                app:cardCornerRadius="15dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginBottom="25dp">
+
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Hạ"
+                                    android:fontFamily="@font/muli_black"
+                                    android:background="@color/green" />
+
+                            </androidx.cardview.widget.CardView>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="175dp"
+                            android:layout_height="290dp"
+                            android:layout_alignParentRight="true">
+
+                            <RelativeLayout
+                                android:layout_width="150dp"
+                                android:layout_height="100dp"
+                                android:background="@drawable/card_in_card"
+                                android:elevation="10dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Độ Cao Giá Treo \n Hiện Tại(M)"
+                                    android:fontFamily="@font/muli_black"
+                                    android:textSize="16sp"
+                                    android:layout_marginTop="15dp"
+                                    android:textColor="@color/black"
+                                    android:textAlignment="center"
+                                    android:layout_centerHorizontal="true"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="100"
+                                    android:fontFamily="@font/muli_black"
+                                    android:textSize="20sp"
+                                    android:textColor="@color/black"
+                                    android:textAlignment="center"
+                                    android:layout_marginBottom="10dp"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_alignParentBottom="true"/>
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="150dp"
+                                android:layout_height="160dp"
+                                android:background="@drawable/card_in_card"
+                                android:elevation="10dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginBottom="10dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Tùy Chỉnh Độ Cao"
+                                    android:fontFamily="@font/muli_black"
+                                    android:textSize="16sp"
+                                    android:layout_marginTop="10dp"
+                                    android:textColor="@color/black"
+                                    android:textAlignment="center"
+                                    android:layout_centerHorizontal="true"/>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Độ Cao (M)"
+                                    app:boxStrokeWidthFocused="2dp"
+                                    app:endIconMode="clear_text"
+                                    android:layout_marginTop="21dp"
+                                    android:padding="10dp">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="@font/muli_black"
+                                        android:inputType="text"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="40dp"
+                                    android:elevation="10dp"
+                                    app:cardCornerRadius="15dp"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_marginBottom="13dp">
+
+                                    <androidx.appcompat.widget.AppCompatButton
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@color/green"
+                                        android:fontFamily="@font/muli_black"
+                                        android:text="Xác Nhận"
+                                        tools:ignore="To\uchTargetSizeCheck" />
+
+
+                                </androidx.cardview.widget.CardView>
+
+
+                            </RelativeLayout>
+
+                        </RelativeLayout>
 
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
