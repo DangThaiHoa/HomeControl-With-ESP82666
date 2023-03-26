@@ -2,11 +2,20 @@ package com.example.homecontrol;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +55,10 @@ public class WeatherInformationFragment extends Fragment {
         return fragment;
     }
 
+    TextView temp,hum;
+    DatabaseReference refTemp,refHum;
+    FirebaseDatabase database;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,12 +66,59 @@ public class WeatherInformationFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_weather_information, container, false);
+        View view = inflater.inflate(R.layout.fragment_weather_information, container, false);
+
+        temp = view.findViewById(R.id.Temperature);
+        hum = view.findViewById(R.id.Humanity);
+
+        database = FirebaseDatabase.getInstance();
+        refTemp = database.getReference("DHT11/temp");
+        refHum = database.getReference("DHT11/hum");
+
+        refTemp.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Float getTemp = dataSnapshot.getValue(Float.class);
+                if(getTemp == null){
+                    temp.setText("Null");
+                }else{
+                    temp.setText(getTemp.toString() + "\u2103");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        refHum.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Float getHum = dataSnapshot.getValue(Float.class);
+                if(getHum == null){
+                    hum.setText("Null");
+                }else{
+                    hum.setText(getHum.toString() + "%");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+
+        return view;
     }
 }

@@ -11,6 +11,9 @@ import android.view.MenuItem;
 
 import com.example.homecontrol.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.ktx.Firebase;
 
 public class MainActivity extends AppCompatActivity {
 

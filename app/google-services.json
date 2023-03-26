@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "165149961860",
+    "firebase_url": "https://homecontrol-60d7d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "homecontrol-60d7d",
+    "storage_bucket": "homecontrol-60d7d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165149961860:android:a135573fa2f319dbb31cd1",
+        "android_client_info": {
+          "package_name": "com.example.homecontrol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "165149961860-7k0fon822k2vl45bc9qdapmvr2m60g6m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDl4SHKYLBOs6bj50GqfyyNIQY9jVI53uA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "165149961860-7k0fon822k2vl45bc9qdapmvr2m60g6m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
