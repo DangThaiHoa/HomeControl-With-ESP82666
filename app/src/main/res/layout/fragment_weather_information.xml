@@ -37,6 +37,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp">
 
+            <TextView
+                android:id="@+id/textDHTError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cảm biến bị lỗi hoặc \nchưa được kết nối với Internet"
+                android:fontFamily="@font/muli_black"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:layout_centerInParent="true"
+                android:elevation="20dp"
+                android:textAlignment="center"
+                android:background="@drawable/background_card_error"
+                android:padding="10dp"
+                android:visibility="invisible"/>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="170dp"
                 android:layout_height="150dp"

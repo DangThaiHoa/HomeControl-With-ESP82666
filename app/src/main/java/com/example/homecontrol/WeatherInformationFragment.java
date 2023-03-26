@@ -1,5 +1,6 @@
 package com.example.homecontrol;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -55,9 +57,11 @@ public class WeatherInformationFragment extends Fragment {
         return fragment;
     }
 
-    TextView temp,hum;
-    DatabaseReference refTemp,refHum;
+    TextView temp,hum,errorDHT;
+    DatabaseReference refTemp,refHum,refErrorDHT;
     FirebaseDatabase database;
+
+    Dialog dialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +70,6 @@ public class WeatherInformationFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
@@ -77,39 +80,51 @@ public class WeatherInformationFragment extends Fragment {
 
         temp = view.findViewById(R.id.Temperature);
         hum = view.findViewById(R.id.Humanity);
+        errorDHT = view.findViewById(R.id.textDHTError);
 
         database = FirebaseDatabase.getInstance();
         refTemp = database.getReference("DHT11/temp");
         refHum = database.getReference("DHT11/hum");
+        refErrorDHT = database.getReference("DHT11/error");
 
-        refTemp.addValueEventListener(new ValueEventListener() {
+        refErrorDHT.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                Float getTemp = dataSnapshot.getValue(Float.class);
-                if(getTemp == null){
+                String getError = dataSnapshot.getValue(String.class);
+                if(getError == "Read/Connect"){
+                    errorDHT.setVisibility(View.VISIBLE);
                     temp.setText("Null");
-                }else{
-                    temp.setText(getTemp.toString() + "\u2103");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
-        refHum.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                Float getHum = dataSnapshot.getValue(Float.class);
-                if(getHum == null){
                     hum.setText("Null");
                 }else{
-                    hum.setText(getHum.toString() + "%");
+                    errorDHT.setVisibility(View.INVISIBLE);
+                    refTemp.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            // This method is called once with the initial value and again
+                            // whenever data at this location is updated.
+                            Float getTemp = dataSnapshot.getValue(Float.class);
+                            temp.setText(getTemp.toString() + "\u2103");
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
+
+                    refHum.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            // This method is called once with the initial value and again
+                            // whenever data at this location is updated.
+                            Float getHum = dataSnapshot.getValue(Float.class);
+                            hum.setText(getHum.toString() + "%");
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
                 }
             }
 
@@ -117,7 +132,6 @@ public class WeatherInformationFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-
 
         return view;
     }
