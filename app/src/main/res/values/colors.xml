@@ -10,4 +10,6 @@
     <color name="dashboard">#94D0DA</color>
     <color name="red">#FF1100</color>
     <color name="green">#00FF0A</color>
+    <color name="blue">#0040FF</color>
+    <color name="yellow">#FFE600</color>
 </resources>

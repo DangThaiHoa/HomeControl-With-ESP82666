@@ -53,6 +53,7 @@
                 android:visibility="invisible"/>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardTemp"
                 android:layout_width="170dp"
                 android:layout_height="150dp"
                 android:elevation="10dp"
@@ -92,6 +93,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardHum"
                 android:layout_width="170dp"
                 android:layout_height="150dp"
                 android:elevation="10dp"
@@ -139,10 +141,11 @@
             android:layout_marginTop="60dp">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardWeather"
                 android:layout_width="250dp"
                 android:layout_height="300dp"
                 android:elevation="10dp"
-                app:cardBackgroundColor="@color/green"
+                app:cardBackgroundColor="@color/yellow"
                 app:cardCornerRadius="20dp">
 
                 <RelativeLayout
@@ -152,20 +155,61 @@
                     android:layout_marginTop="10dp">
 
                     <TextView
+                        android:id="@+id/textWeatherError"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mạch thời gian thực đang bị lỗi hoặc pin yếu\n vui lòng kiểm tra lại để ứng dụng hoạt động tốt nhất"
+                        android:fontFamily="@font/muli_black"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:layout_centerInParent="true"
+                        android:elevation="20dp"
+                        android:textAlignment="center"
+                        android:background="@drawable/background_card_error"
+                        android:padding="10dp"
+                        android:visibility="invisible"/>
+
+                    <TextView
+                        android:id="@+id/Date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/muli_black"
-                        android:text="Mưa Nhẹ"
+                        android:text="Date"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:layout_below="@+id/WeatherIcon"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="15dp"/>
+
+                    <TextView
+                        android:id="@+id/Time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/muli_black"
+                        android:text="Time"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:layout_below="@+id/Date"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"/>
+
+                    <TextView
+                        android:id="@+id/Weather"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/muli_black"
+                        android:text="Nắng"
                         android:textColor="@color/black"
                         android:textSize="25sp"
                         android:layout_centerHorizontal="true"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="40dp"/>
+                        android:layout_marginBottom="30dp"/>
 
                     <ImageView
+                        android:id="@+id/WeatherIcon"
                         android:layout_width="300dp"
-                        android:layout_height="190dp"
-                        android:src="@drawable/cloudyrain"
+                        android:layout_height="150dp"
+                        android:src="@drawable/sun"
                         android:padding="10dp"/>
 
                 </RelativeLayout>
