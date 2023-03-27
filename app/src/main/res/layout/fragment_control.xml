@@ -41,6 +41,7 @@
                 android:layout_marginTop="30dp">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cardServo"
                     android:layout_width="350dp"
                     android:layout_height="290dp"
                     android:elevation="10dp"
@@ -61,6 +62,7 @@
                             android:padding="10dp"/>
 
                         <ImageView
+                            android:id="@+id/weatherControl"
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:src="@drawable/sun"
@@ -79,6 +81,7 @@
                             android:layout_marginTop="30dp"/>
 
                         <TextView
+                            android:id="@+id/textRoof"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/muli_black"
@@ -99,6 +102,7 @@
                             android:layout_marginBottom="25dp">
 
                             <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/btnOpenCloseRoof"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Mở"

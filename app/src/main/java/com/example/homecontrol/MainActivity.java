@@ -9,14 +9,19 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.homecontrol.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ktx.Firebase;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,12 +35,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         replaceFragment(new WeatherInformationFragment());
 
-        if(CheckInternet.isNetworkAvailable(this)){
+        if (CheckInternet.isNetworkAvailable(this)) {
             binding.bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                    switch (item.getItemId()){
+                    switch (item.getItemId()) {
 
                         case R.id.weather:
                             replaceFragment(new WeatherInformationFragment());
@@ -48,10 +53,8 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             });
-        }else{
-
+        } else {
             ShowDiaLog();
-
         }
     }
 

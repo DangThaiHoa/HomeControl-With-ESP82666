@@ -198,6 +198,7 @@ public class WeatherInformationFragment extends Fragment {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String getDate = dataSnapshot.getValue(String.class);
                             date.setText(getDate);
+
                         }
 
                         @Override
@@ -211,6 +212,7 @@ public class WeatherInformationFragment extends Fragment {
                             String getTime = dataSnapshot.getValue(String.class);
                             time.setText(getTime);
                             ReadWeather(getTime);
+
                         }
 
                         @Override
@@ -219,6 +221,7 @@ public class WeatherInformationFragment extends Fragment {
                         }
                     });
                 }
+
             }
 
             @Override
@@ -265,6 +268,7 @@ public class WeatherInformationFragment extends Fragment {
                         weaCard.setCardBackgroundColor(Color.parseColor("black"));
                     }
                 }
+
             }
 
             @Override
