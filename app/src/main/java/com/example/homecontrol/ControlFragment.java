@@ -104,12 +104,14 @@ public class ControlFragment extends Fragment {
                 int Angle = dataSnapshot.getValue(Integer.class);
                 if(Angle == 180){
                     roof.setText("Mở");
-                    OpenCloseRoof.setBackgroundColor(Color.parseColor("green"));
+                    OpenCloseRoof.setText("Đóng");
+                    OpenCloseRoof.setBackgroundColor(Color.parseColor("red"));
                     cardServo.setCardBackgroundColor(Color.parseColor("green"));
                     AngleCur = 0;
                 }else{
                     roof.setText("Đóng");
-                    OpenCloseRoof.setBackgroundColor(Color.parseColor("red"));
+                    OpenCloseRoof.setText("Mở");
+                    OpenCloseRoof.setBackgroundColor(Color.parseColor("green"));
                     cardServo.setCardBackgroundColor(Color.parseColor("red"));
                     AngleCur = 180;
                 }
@@ -126,9 +128,6 @@ public class ControlFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 refAngleServo.setValue(AngleCur);
-                roof.setText("Đóng");
-                OpenCloseRoof.setBackgroundColor(Color.parseColor("red"));
-                cardServo.setCardBackgroundColor(Color.parseColor("red"));
             }
         });
 
