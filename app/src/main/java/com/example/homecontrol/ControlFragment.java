@@ -83,6 +83,9 @@ public class ControlFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_control, container, false);
+
+        final ProgessLoading progessLoading = new ProgessLoading(getActivity());
+
         OpenCloseRoof = view.findViewById(R.id.btnOpenCloseRoof);
         roof = view.findViewById(R.id.textRoof);
         weaControl = view.findViewById(R.id.weatherControl);
@@ -128,6 +131,14 @@ public class ControlFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 refAngleServo.setValue(AngleCur);
+                progessLoading.show();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progessLoading.dismiss();
+                    }
+                },3000);
             }
         });
 
