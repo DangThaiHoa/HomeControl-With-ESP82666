@@ -244,12 +244,12 @@ public class WeatherInformationFragment extends Fragment {
                         weather.setText("Nắng");
                         weatherImage.setImageResource(R.drawable.sun);
                         weaCard.setCardBackgroundColor(Color.parseColor("yellow"));
-                    }else if (getWaterData >= 50 && getWaterData <= 350){
+                    }else if (getWaterData >= 50 && getWaterData <= 500){
                         weather.setText("Mưa Nhỏ");
                         weatherImage.setImageResource(R.drawable.raining);
                         weaCard.setCardBackgroundColor(Color.parseColor("blue"));
                     }else{
-                        weather.setText("Mưa Rào");
+                        weather.setText("Mưa Lớn");
                         weatherImage.setImageResource(R.drawable.storm);
                         weaCard.setCardBackgroundColor(Color.parseColor("black"));
                     }
@@ -258,12 +258,12 @@ public class WeatherInformationFragment extends Fragment {
                         weather.setText("Đêm");
                         weatherImage.setImageResource(R.drawable.moon);
                         weaCard.setCardBackgroundColor(Color.parseColor("black"));
-                    }else if (getWaterData >= 50 && getWaterData <= 350){
+                    }else if (getWaterData >= 50 && getWaterData <= 500){
                         weather.setText("Mưa Nhỏ");
                         weatherImage.setImageResource(R.drawable.raining);
                         weaCard.setCardBackgroundColor(Color.parseColor("blue"));
                     }else{
-                        weather.setText("Mưa Rào");
+                        weather.setText("Mưa Lớn");
                         weatherImage.setImageResource(R.drawable.storm);
                         weaCard.setCardBackgroundColor(Color.parseColor("black"));
                     }

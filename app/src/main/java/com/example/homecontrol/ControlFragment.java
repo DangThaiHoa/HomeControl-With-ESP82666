@@ -65,10 +65,12 @@ public class ControlFragment extends Fragment {
     Button OpenCloseRoof, led1, led2, led3;
     TextView roof,textLed1,textLed2,textLed3;
     FirebaseDatabase database;
-    DatabaseReference refAngleServo, refWaterSensor, refDate, refTime, refErrorDS1302, refLed1, refLed2, refLed3;
+    DatabaseReference refAngleServo, refTrigServo, refWaterSensor, refDate, refTime, refErrorDS1302, refLed1, refLed2, refLed3;
     CardView cardServo;
     int AngleCur, sLed1, sLed2, sLed3;
     ImageView weaControl, imageLed1, imageLed2, imageLed3;
+
+    ProgessLoading progessLoading;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,7 +86,7 @@ public class ControlFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_control, container, false);
 
-        final ProgessLoading progessLoading = new ProgessLoading(getActivity());
+        progessLoading = new ProgessLoading(getActivity());
 
         OpenCloseRoof = view.findViewById(R.id.btnOpenCloseRoof);
         roof = view.findViewById(R.id.textRoof);
@@ -106,6 +108,7 @@ public class ControlFragment extends Fragment {
 
         database = FirebaseDatabase.getInstance();
         refAngleServo = database.getReference("Servo/roof");
+        refTrigServo = database.getReference("Servo/trigger");
         refWaterSensor = database.getReference("WATERSENSOR/waterdata");
 
         refDate = database.getReference("DS1302/date");
@@ -147,12 +150,14 @@ public class ControlFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 refAngleServo.setValue(AngleCur);
+                refTrigServo.setValue("Trig");
                 progessLoading.show();
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         progessLoading.dismiss();
+                        refTrigServo.setValue("null");
                     }
                 },3000);
             }
@@ -251,6 +256,14 @@ public class ControlFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 refLed1.setValue(sLed1);
+                progessLoading.show();
+                Handler handler =  new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progessLoading.dismiss();
+                    }
+                },5000);
             }
         });
 
@@ -258,6 +271,14 @@ public class ControlFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 refLed2.setValue(sLed2);
+                progessLoading.show();
+                Handler handler =  new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progessLoading.dismiss();
+                    }
+                },5000);
             }
         });
 
@@ -265,6 +286,14 @@ public class ControlFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 refLed3.setValue(sLed3);
+                progessLoading.show();
+                Handler handler =  new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progessLoading.dismiss();
+                    }
+                },5000);
             }
         });
 
