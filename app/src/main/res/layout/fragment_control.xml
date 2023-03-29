@@ -129,9 +129,9 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="350dp"
-                    android:layout_height="300dp"
+                    android:layout_height="280dp"
                     android:elevation="10dp"
-                    app:cardBackgroundColor="@color/red"
+                    app:cardBackgroundColor="@color/green"
                     app:cardCornerRadius="20dp">
 
                     <RelativeLayout
@@ -163,7 +163,7 @@
                                 android:layout_height="70dp"
                                 android:src="@drawable/lamp_off"
                                 android:layout_centerHorizontal="true"
-                                android:layout_marginTop="50dp"/>
+                                android:layout_marginTop="50dp" />
 
                             <TextView
                                 android:id="@+id/textLed1"
@@ -205,7 +205,54 @@
                             android:layout_marginTop="10dp"
                             android:layout_centerHorizontal="true">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Led 2"
+                                android:fontFamily="@font/muli_black"
+                                android:textSize="17sp"
+                                android:textColor="@color/black"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"/>
 
+                            <ImageView
+                                android:id="@+id/imageLed2"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:src="@drawable/lamp_off"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="50dp"/>
+
+                            <TextView
+                                android:id="@+id/textLed2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tắt"
+                                android:fontFamily="@font/muli_black"
+                                android:textSize="17sp"
+                                android:textColor="@color/black"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"
+                                android:layout_below="@+id/imageLed2"/>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:elevation="10dp"
+                                app:cardCornerRadius="15dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginBottom="40dp">
+
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:id="@+id/btnLed2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Mở"
+                                    android:fontFamily="@font/muli_black"
+                                    android:background="@color/green" />
+
+                            </androidx.cardview.widget.CardView>
 
                         </RelativeLayout>
 
@@ -216,7 +263,54 @@
                             android:layout_marginTop="10dp"
                             android:layout_alignParentEnd="true">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Led 3"
+                                android:fontFamily="@font/muli_black"
+                                android:textSize="17sp"
+                                android:textColor="@color/black"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"/>
 
+                            <ImageView
+                                android:id="@+id/imageLed3"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:src="@drawable/lamp_off"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="50dp"/>
+
+                            <TextView
+                                android:id="@+id/textLed3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tắt"
+                                android:fontFamily="@font/muli_black"
+                                android:textSize="17sp"
+                                android:textColor="@color/black"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"
+                                android:layout_below="@+id/imageLed3"/>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:elevation="10dp"
+                                app:cardCornerRadius="15dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginBottom="40dp">
+
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:id="@+id/btnLed3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Mở"
+                                    android:fontFamily="@font/muli_black"
+                                    android:background="@color/green" />
+
+                            </androidx.cardview.widget.CardView>
 
                         </RelativeLayout>
 

@@ -62,13 +62,13 @@ public class ControlFragment extends Fragment {
         return fragment;
     }
 
-    Button OpenCloseRoof;
-    TextView roof;
+    Button OpenCloseRoof, led1, led2, led3;
+    TextView roof,textLed1,textLed2,textLed3;
     FirebaseDatabase database;
-    DatabaseReference refAngleServo, refWaterSensor, refDate, refTime, refErrorDS1302;
+    DatabaseReference refAngleServo, refWaterSensor, refDate, refTime, refErrorDS1302, refLed1, refLed2, refLed3;
     CardView cardServo;
-    int AngleCur;
-    ImageView weaControl;
+    int AngleCur, sLed1, sLed2, sLed3;
+    ImageView weaControl, imageLed1, imageLed2, imageLed3;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,6 +90,18 @@ public class ControlFragment extends Fragment {
         roof = view.findViewById(R.id.textRoof);
         weaControl = view.findViewById(R.id.weatherControl);
 
+        textLed1 = view.findViewById(R.id.textLed1);
+        textLed2 = view.findViewById(R.id.textLed2);
+        textLed3 = view.findViewById(R.id.textLed3);
+
+        imageLed1 = view.findViewById(R.id.imageLed1);
+        imageLed2 = view.findViewById(R.id.imageLed2);
+        imageLed3 = view.findViewById(R.id.imageLed3);
+
+        led1 = view.findViewById(R.id.btnLed1);
+        led2 = view.findViewById(R.id.btnLed2);
+        led3 = view.findViewById(R.id.btnLed3);
+
         cardServo = view.findViewById(R.id.cardServo);
 
         database = FirebaseDatabase.getInstance();
@@ -99,6 +111,10 @@ public class ControlFragment extends Fragment {
         refDate = database.getReference("DS1302/date");
         refTime = database.getReference("DS1302/time");
         refErrorDS1302 = database.getReference("DS1302/error");
+
+        refLed1 = database.getReference("LED/led1");
+        refLed2 = database.getReference("LED/led2");
+        refLed3 = database.getReference("LED/led3");
 
 
         refAngleServo.addValueEventListener(new ValueEventListener() {
@@ -146,7 +162,112 @@ public class ControlFragment extends Fragment {
 
         ReadWeather("6");
 
+        ControlLed();
+
         return view;
+    }
+
+    private void ControlLed() {
+
+        refLed1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int statusLed1 = dataSnapshot.getValue(Integer.class);
+                if(statusLed1 == 1){
+                    textLed1.setText("Bật");
+                    led1.setText("Tắt");
+                    led1.setBackgroundColor(Color.parseColor("red"));
+                    imageLed1.setImageResource(R.drawable.lamp_on);
+                    sLed1 = 0;
+                }else{
+                    textLed1.setText("Tắt");
+                    led1.setText("Bật");
+                    led1.setBackgroundColor(Color.parseColor("green"));
+                    imageLed1.setImageResource(R.drawable.lamp_off);
+                    sLed1 = 1;
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        refLed2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int statusLed2 = dataSnapshot.getValue(Integer.class);
+                if(statusLed2 == 1){
+                    textLed2.setText("Bật");
+                    led2.setText("Tắt");
+                    led2.setBackgroundColor(Color.parseColor("red"));
+                    imageLed2.setImageResource(R.drawable.lamp_on);
+                    sLed2 = 0;
+                }else{
+                    textLed2.setText("Tắt");
+                    led2.setText("Bật");
+                    led2.setBackgroundColor(Color.parseColor("green"));
+                    imageLed2.setImageResource(R.drawable.lamp_off);
+                    sLed2 = 1;
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        refLed3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int statusLed3 = dataSnapshot.getValue(Integer.class);
+                if(statusLed3 == 1){
+                    textLed3.setText("Bật");
+                    led3.setText("Tắt");
+                    led3.setBackgroundColor(Color.parseColor("red"));
+                    imageLed3.setImageResource(R.drawable.lamp_on);
+                    sLed3 = 0;
+                }else{
+                    textLed3.setText("Tắt");
+                    led3.setText("Bật");
+                    led3.setBackgroundColor(Color.parseColor("green"));
+                    imageLed3.setImageResource(R.drawable.lamp_off);
+                    sLed3 = 1;
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        led1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refLed1.setValue(sLed1);
+            }
+        });
+
+        led2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refLed2.setValue(sLed2);
+            }
+        });
+
+        led3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refLed3.setValue(sLed3);
+            }
+        });
+
     }
 
     private void ReadDateTime(){
