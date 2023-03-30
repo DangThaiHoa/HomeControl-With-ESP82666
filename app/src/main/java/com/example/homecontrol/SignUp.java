@@ -20,14 +20,23 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.ktx.Firebase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUp extends AppCompatActivity {
 
     Button signup,login, ConfirmBtnDia, CancelBtnDia;
     TextView ContentDia;
     ImageView backbtn;
-    TextInputEditText email, password, rePassword;
+    TextInputEditText email, password, rePassword, name;
     Dialog dialog;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
     ProgressLoading progressLoading;
 
     @Override
@@ -37,12 +46,15 @@ public class SignUp extends AppCompatActivity {
 
         progressLoading = new ProgressLoading(SignUp.this);
 
+        DatabaseReference refUser = database.getReference("/");
+
         backbtn = findViewById(R.id.signup_back_button);
         login = findViewById(R.id.signup_login_button);
         signup = findViewById(R.id.sigun_button);
         email = findViewById(R.id.Email_signup);
         password = findViewById(R.id.Password_signup);
         rePassword = findViewById(R.id.rePassword_signup);
+        name = findViewById(R.id.Name_signup);
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +62,8 @@ public class SignUp extends AppCompatActivity {
                 String gPassword = password.getText().toString();
                 String grePassword = rePassword.getText().toString();
                 String gEmail = email.getText().toString();
-                if (gPassword.isEmpty() || grePassword.isEmpty() || gEmail.isEmpty()) {
+                String gName = name.getText().toString();
+                if (gPassword.isEmpty() || grePassword.isEmpty() || gEmail.isEmpty() || gName.isEmpty()) {
 
                     Toast.makeText(SignUp.this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
 
@@ -69,6 +82,17 @@ public class SignUp extends AppCompatActivity {
                                                 if (task.isSuccessful()) {
                                                     // Sign in success, update UI with the signed-in user's information
                                                     progressLoading.show();
+                                                    DatabaseReference  usersRef = refUser.child("Users");
+                                                    Map<String, String> userData = new HashMap<String, String>();
+                                                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                                    if(user != null){
+                                                        String uid = user.getUid();
+                                                        usersRef = refUser.child("Users").child(uid);
+                                                        userData.put("name",gName);
+                                                        userData.put("email",gEmail);
+                                                        userData.put("keyESP","null");
+                                                    }
+                                                    usersRef.setValue(userData);
                                                     new Handler().postDelayed(new Runnable() {
                                                         @Override
                                                         public void run() {
