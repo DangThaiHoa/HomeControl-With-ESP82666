@@ -73,6 +73,29 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="16dp"
+                            android:fontFamily="@font/muli_black"
+                            android:text="Chế Độ"
+                            android:textColor="@color/black"
+                            android:textSize="17sp" />
+
+                        <TextView
+                            android:id="@+id/textMode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tự động"
+                            android:fontFamily="@font/muli_black"
+                            android:textSize="17sp"
+                            android:textColor="@color/black"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginRight="10dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="Giếng Trời"
                             android:fontFamily="@font/muli_black"
                             android:textSize="17sp"

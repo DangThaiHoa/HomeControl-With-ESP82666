@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.control:
                             replaceFragment(new ControlFragment());
                             break;
+                        case R.id.user:
+                            replaceFragment(new UserFragment());
+                            break;
 
                     }
                     return true;

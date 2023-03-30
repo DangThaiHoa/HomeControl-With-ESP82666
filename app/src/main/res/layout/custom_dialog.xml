@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_Content_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="Nhập thông tin cần thông báo ở đây"
+        android:fontFamily="@font/muli_black"
+        android:textSize="16sp"
+        android:textAllCaps="true"
+        android:gravity="center"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/black"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginRight="20dp">
+
+        <Button
+            android:id="@+id/Cancel_dialog_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hủy"/>
+
+        <Button
+            android:id="@+id/Confirm_dialog_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xác Nhận"
+            android:layout_toEndOf="@+id/Cancel_dialog_btn"
+            android:layout_marginLeft="10dp"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>
