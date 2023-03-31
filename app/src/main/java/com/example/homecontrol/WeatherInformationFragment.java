@@ -100,15 +100,15 @@ public class WeatherInformationFragment extends Fragment {
         weatherImage = view.findViewById(R.id.WeatherIcon);
 
         database = FirebaseDatabase.getInstance();
-        refTemp = database.getReference("DHT11/temp");
-        refHum = database.getReference("DHT11/hum");
-        refErrorDHT = database.getReference("DHT11/error");
+        refTemp = database.getReference("ESP8266/DHT11/temp");
+        refHum = database.getReference("ESP8266/DHT11/hum");
+        refErrorDHT = database.getReference("ESP8266/DHT11/error");
 
-        refWaterSensor = database.getReference("WATERSENSOR/waterdata");
+        refWaterSensor = database.getReference("ESP8266/WATERSENSOR/waterdata");
 
-        refDate = database.getReference("DS1302/date");
-        refTime = database.getReference("DS1302/time");
-        refErrorDS1302 = database.getReference("DS1302/error");
+        refDate = database.getReference("ESP8266/DS1302/date");
+        refTime = database.getReference("ESP8266/DS1302/time");
+        refErrorDS1302 = database.getReference("ESP8266/DS1302/error");
 
         ReadDHT11();
 

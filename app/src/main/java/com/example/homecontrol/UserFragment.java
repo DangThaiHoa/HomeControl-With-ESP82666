@@ -90,8 +90,8 @@ public class UserFragment extends Fragment {
         FirebaseUser userUID = FirebaseAuth.getInstance().getCurrentUser();
         uid = userUID.getUid();
 
-        refEmail = database.getReference("Users/" + uid + "/email");
-        refName = database.getReference("Users/" + uid + "/name");
+        refEmail = database.getReference("Member/Users/" + uid + "/email");
+        refName = database.getReference("Member/Users/" + uid + "/name");
 
         loadUser();
 

@@ -46,7 +46,7 @@ public class SignUp extends AppCompatActivity {
 
         progressLoading = new ProgressLoading(SignUp.this);
 
-        DatabaseReference refUser = database.getReference("/");
+        DatabaseReference refUser = database.getReference("Member/");
 
         backbtn = findViewById(R.id.signup_back_button);
         login = findViewById(R.id.signup_login_button);

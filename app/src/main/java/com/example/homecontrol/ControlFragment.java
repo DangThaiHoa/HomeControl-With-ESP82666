@@ -106,19 +106,19 @@ public class ControlFragment extends Fragment {
         cardServo = view.findViewById(R.id.cardServo);
 
         database = FirebaseDatabase.getInstance();
-        refAngleServo = database.getReference("Servo/roof");
-        refTrigServo = database.getReference("Servo/trigger");
-        refModeServo = database.getReference("Servo/mode");
+        refAngleServo = database.getReference("ESP8266/Servo/roof");
+        refTrigServo = database.getReference("ESP8266/Servo/trigger");
+        refModeServo = database.getReference("ESP8266/Servo/mode");
 
-        refWaterSensor = database.getReference("WATERSENSOR/waterdata");
+        refWaterSensor = database.getReference("ESP8266/WATERSENSOR/waterdata");
 
-        refDate = database.getReference("DS1302/date");
-        refTime = database.getReference("DS1302/time");
-        refErrorDS1302 = database.getReference("DS1302/error");
+        refDate = database.getReference("ESP8266/DS1302/date");
+        refTime = database.getReference("ESP8266/DS1302/time");
+        refErrorDS1302 = database.getReference("ESP8266/DS1302/error");
 
-        refLed1 = database.getReference("LED/led1");
-        refLed2 = database.getReference("LED/led2");
-        refLed3 = database.getReference("LED/led3");
+        refLed1 = database.getReference("ESP8266/LED/led1");
+        refLed2 = database.getReference("ESP8266/LED/led2");
+        refLed3 = database.getReference("ESP8266/LED/led3");
 
 
         refAngleServo.addValueEventListener(new ValueEventListener() {
