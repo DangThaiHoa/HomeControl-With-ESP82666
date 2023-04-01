@@ -46,7 +46,7 @@ public class SignUp extends AppCompatActivity {
 
         progressLoading = new ProgressLoading(SignUp.this);
 
-        DatabaseReference refUser = database.getReference("Member/");
+        DatabaseReference refUser = database.getReference("HomeControl/Members/");
 
         backbtn = findViewById(R.id.signup_back_button);
         login = findViewById(R.id.signup_login_button);
@@ -90,7 +90,6 @@ public class SignUp extends AppCompatActivity {
                                                         usersRef = refUser.child("Users").child(uid);
                                                         userData.put("name",gName);
                                                         userData.put("email",gEmail);
-                                                        userData.put("keyESP","null");
                                                     }
                                                     usersRef.setValue(userData);
                                                     new Handler().postDelayed(new Runnable() {

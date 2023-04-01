@@ -60,6 +60,7 @@ public class UserFragment extends Fragment {
         return fragment;
     }
 
+    String path = "HomeControl/Members/";
     ImageView logout;
     FirebaseDatabase database;
     DatabaseReference refEmail,refName;
@@ -90,8 +91,8 @@ public class UserFragment extends Fragment {
         FirebaseUser userUID = FirebaseAuth.getInstance().getCurrentUser();
         uid = userUID.getUid();
 
-        refEmail = database.getReference("Member/Users/" + uid + "/email");
-        refName = database.getReference("Member/Users/" + uid + "/name");
+        refEmail = database.getReference(path + "Users/" + uid + "/email");
+        refName = database.getReference(path + "Users/" + uid + "/name");
 
         loadUser();
 

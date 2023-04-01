@@ -60,6 +60,7 @@ public class ControlFragment extends Fragment {
         return fragment;
     }
 
+    String path = "HomeControl/ESP8266/DATA/";
     Button OpenCloseRoof, led1, led2, led3;
     TextView roof,textLed1,textLed2,textLed3, textModeServo;
     FirebaseDatabase database;
@@ -106,19 +107,19 @@ public class ControlFragment extends Fragment {
         cardServo = view.findViewById(R.id.cardServo);
 
         database = FirebaseDatabase.getInstance();
-        refAngleServo = database.getReference("ESP8266/Servo/roof");
-        refTrigServo = database.getReference("ESP8266/Servo/trigger");
-        refModeServo = database.getReference("ESP8266/Servo/mode");
+        refAngleServo = database.getReference( path + "Servo/roof");
+        refTrigServo = database.getReference(path + "Servo/trigger");
+        refModeServo = database.getReference(path + "Servo/mode");
 
-        refWaterSensor = database.getReference("ESP8266/WATERSENSOR/waterdata");
+        refWaterSensor = database.getReference(path + "WATERSENSOR/waterdata");
 
-        refDate = database.getReference("ESP8266/DS1302/date");
-        refTime = database.getReference("ESP8266/DS1302/time");
-        refErrorDS1302 = database.getReference("ESP8266/DS1302/error");
+        refDate = database.getReference(path + "DS1302/date");
+        refTime = database.getReference(path + "DS1302/time");
+        refErrorDS1302 = database.getReference(path + "DS1302/error");
 
-        refLed1 = database.getReference("ESP8266/LED/led1");
-        refLed2 = database.getReference("ESP8266/LED/led2");
-        refLed3 = database.getReference("ESP8266/LED/led3");
+        refLed1 = database.getReference(path + "LED/led1");
+        refLed2 = database.getReference(path + "LED/led2");
+        refLed3 = database.getReference(path + "LED/led3");
 
 
         refAngleServo.addValueEventListener(new ValueEventListener() {

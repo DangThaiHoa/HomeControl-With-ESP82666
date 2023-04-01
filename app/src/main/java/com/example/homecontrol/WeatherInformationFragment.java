@@ -64,6 +64,7 @@ public class WeatherInformationFragment extends Fragment {
         return fragment;
     }
 
+    String path = "HomeControl/ESP8266/DATA/";
     TextView temp,hum,errorDHT,weather,date, time, errorWea;
     DatabaseReference refTemp,refHum,refErrorDHT, refWaterSensor, refDate, refTime, refErrorDS1302;
     FirebaseDatabase database;
@@ -100,15 +101,15 @@ public class WeatherInformationFragment extends Fragment {
         weatherImage = view.findViewById(R.id.WeatherIcon);
 
         database = FirebaseDatabase.getInstance();
-        refTemp = database.getReference("ESP8266/DHT11/temp");
-        refHum = database.getReference("ESP8266/DHT11/hum");
-        refErrorDHT = database.getReference("ESP8266/DHT11/error");
+        refTemp = database.getReference(path + "DHT11/temp");
+        refHum = database.getReference(path + "DHT11/hum");
+        refErrorDHT = database.getReference(path + "DHT11/error");
 
-        refWaterSensor = database.getReference("ESP8266/WATERSENSOR/waterdata");
+        refWaterSensor = database.getReference(path + "WATERSENSOR/waterdata");
 
-        refDate = database.getReference("ESP8266/DS1302/date");
-        refTime = database.getReference("ESP8266/DS1302/time");
-        refErrorDS1302 = database.getReference("ESP8266/DS1302/error");
+        refDate = database.getReference(path + "DS1302/date");
+        refTime = database.getReference(path + "DS1302/time");
+        refErrorDS1302 = database.getReference(path + "DS1302/error");
 
         ReadDHT11();
 
