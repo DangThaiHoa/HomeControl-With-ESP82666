@@ -1,0 +1,178 @@
+package com.example.homecontrol;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+public class ShareDevice extends AppCompatActivity {
+
+    TextView count, email1, email2;
+    TextInputEditText input_email;
+    Button shareBtn;
+    ImageView backBtn, deleteEmail1, deleteEmail2;
+    String path = "HomeControl/ESP8266/Users/";
+    FirebaseDatabase database;
+    DatabaseReference refUid02, refUid03, refEmail02, refEmail03, refRole02, refRole03;;
+    int cou1 = 0, cou2 = 0, delete1 = 0, delete2 = 0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_share_device);
+
+        count = findViewById(R.id.count_share);
+        email1 = findViewById(R.id.share1_email);
+        email2 = findViewById(R.id.share2_email);
+        input_email = findViewById(R.id.Email_share);
+        shareBtn = findViewById(R.id.share_button);
+        backBtn = findViewById(R.id.back_btn);
+        deleteEmail1 = findViewById(R.id.delete_email1);
+        deleteEmail2 = findViewById(R.id.delete_email2);
+
+        database = FirebaseDatabase.getInstance();
+        refEmail02 = database.getReference( path + "UID-02/email");
+        refEmail03 = database.getReference( path + "UID-03/email");
+        refUid02 = database.getReference( path + "UID-02/uid");
+        refUid03 = database.getReference( path + "UID-03/uid");
+        refRole02 = database.getReference( path + "UID-02/role");
+        refRole03 = database.getReference( path + "UID-03/role");
+
+        refEmail02.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String gEmail = dataSnapshot.getValue(String.class);
+                if(gEmail.equals("null")){
+                    email1.setText("share1@gmail.com");
+                    cou1 = 0;
+                }else{
+                    email1.setText(gEmail);
+                    cou1 = 1;
+                }
+                Count();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        refEmail03.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String gEmail = dataSnapshot.getValue(String.class);
+                if(gEmail.equals("null")){
+                    email2.setText("share2@gmail.com");
+                    cou2 = 0;
+                }else{
+                    email2.setText(gEmail);
+                    cou2 = 1;
+                }
+                Count();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                delete1 = 0;
+                delete2 = 0;
+                if(cou1 == 0){
+                    refEmail02.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String gEmail = dataSnapshot.getValue(String.class);
+                            if(gEmail.equals("null") && delete1 == 0){
+                                refEmail02.setValue(input_email.getText().toString().trim());
+                                refRole02.setValue("Read/Write");
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }else{
+                    refEmail03.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String gEmail = dataSnapshot.getValue(String.class);
+                            if(gEmail.equals("null") && delete2 == 0){
+                                refEmail03.setValue(input_email.getText().toString().trim());
+                                refRole03.setValue("Read/Write");
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+        });
+
+        deleteEmail1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refEmail02.setValue("null");
+                refUid02.setValue("null");
+                refRole02.setValue("null");
+                cou1 = 0;
+                delete1 = 1;
+                input_email.setText("");
+            }
+        });
+
+        deleteEmail2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refEmail03.setValue("null");
+                refUid03.setValue("null");
+                refRole03.setValue("null");
+                cou2 = 0;
+                delete2 = 1;
+                input_email.setText("");
+            }
+        });
+
+        backBtn();
+    }
+
+    private void Count() {
+        if(cou1 + cou2 == 0){
+            count.setText("Những Email Đã Chia Sẻ (0/2)");
+        }else if(cou1 + cou2 == 1){
+            count.setText("Những Email Đã Chia Sẻ (1/2)");
+        }else{
+            count.setText("Những Email Đã Chia Sẻ (2/2)");
+        }
+    }
+
+    private void backBtn() {
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShareDevice.super.onBackPressed();
+            }
+        });
+    }
+}

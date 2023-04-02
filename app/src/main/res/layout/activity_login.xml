@@ -23,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
+            android:textColor="@color/black"
             android:fontFamily="@font/muli_black"
             android:text="Đăng Nhập"
             android:textAllCaps="true"
@@ -84,6 +85,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/muli_black"
+                    android:textColor="@color/black"
                     android:text="Quên Mật Khẩu?"
                     android:textAllCaps="true" />
 

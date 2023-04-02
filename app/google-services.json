@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "165149961860",
-    "firebase_url": "https://homecontrol-60d7d-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "homecontrol-60d7d",
-    "storage_bucket": "homecontrol-60d7d.appspot.com"
+    "project_number": "944083870121",
+    "firebase_url": "https://homecontrol-526d0-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "homecontrol-526d0",
+    "storage_bucket": "homecontrol-526d0.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:165149961860:android:a135573fa2f319dbb31cd1",
+        "mobilesdk_app_id": "1:944083870121:android:bfe411b6a3e8c5c17da4b8",
         "android_client_info": {
           "package_name": "com.example.homecontrol"
         }
       },
       "oauth_client": [
         {
-          "client_id": "165149961860-7k0fon822k2vl45bc9qdapmvr2m60g6m.apps.googleusercontent.com",
+          "client_id": "944083870121-risaskblm8ul0o597hsf8npnbmo7heaf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDl4SHKYLBOs6bj50GqfyyNIQY9jVI53uA"
+          "current_key": "AIzaSyAbVyBIMHx_t3b599OF7r6oc0vMX3T1mRM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "165149961860-7k0fon822k2vl45bc9qdapmvr2m60g6m.apps.googleusercontent.com",
+              "client_id": "944083870121-risaskblm8ul0o597hsf8npnbmo7heaf.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -19,8 +20,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,6 +65,7 @@ public class UserFragment extends Fragment {
     DatabaseReference refEmail,refName;
     TextView tName, tEmail;
     String uid;
+    CardView configCard, shareCard;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +86,9 @@ public class UserFragment extends Fragment {
         tName = view.findViewById(R.id.text_name_Profile);
         tEmail = view.findViewById(R.id.text_email_Profile);
 
+        configCard = view.findViewById(R.id.card_icon_Config_profile);
+        shareCard = view.findViewById(R.id.card_icon_share_profile);
+
         database = FirebaseDatabase.getInstance();
 
         FirebaseUser userUID = FirebaseAuth.getInstance().getCurrentUser();
@@ -93,12 +96,39 @@ public class UserFragment extends Fragment {
 
         refEmail = database.getReference(path + "Users/" + uid + "/email");
         refName = database.getReference(path + "Users/" + uid + "/name");
-
         loadUser();
 
         logout();
 
-        return  view;
+        config();
+
+        share();
+
+        return view;
+    }
+
+    private void share() {
+
+        shareCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ShareDevice.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void config() {
+
+        configCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), SelectBoardConfig.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void loadUser() {

@@ -11,6 +11,7 @@
         android:text="Nhập thông tin cần thông báo ở đây"
         android:fontFamily="@font/muli_black"
         android:textSize="16sp"
+        android:textColor="@color/black"
         android:textAllCaps="true"
         android:gravity="center"/>
 
@@ -32,7 +33,8 @@
             android:id="@+id/Cancel_dialog_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hủy"/>
+            android:text="Hủy"
+            android:padding="10dp"/>
 
         <Button
             android:id="@+id/Confirm_dialog_btn"
@@ -40,7 +42,8 @@
             android:layout_height="wrap_content"
             android:text="Xác Nhận"
             android:layout_toEndOf="@+id/Cancel_dialog_btn"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"/>
 
     </RelativeLayout>
 
