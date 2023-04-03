@@ -62,7 +62,7 @@ public class UserFragment extends Fragment {
     String path = "HomeControl/Members/";
     ImageView logout;
     FirebaseDatabase database;
-    DatabaseReference refEmail,refName;
+    DatabaseReference refEmail,refName, refEmail02, refEmail03;
     TextView tName, tEmail;
     String uid;
     CardView configCard, shareCard;
@@ -96,6 +96,8 @@ public class UserFragment extends Fragment {
 
         refEmail = database.getReference(path + "Users/" + uid + "/email");
         refName = database.getReference(path + "Users/" + uid + "/name");
+        refEmail02 = database.getReference("HomeControl/ESP8266/Users/UID-02/email");
+        refEmail03 = database.getReference("HomeControl/ESP8266/Users/UID-03/email");
         loadUser();
 
         logout();
@@ -104,7 +106,47 @@ public class UserFragment extends Fragment {
 
         share();
 
+        Role();
+
         return view;
+    }
+
+    private void Role() {
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String email = user.getEmail();
+        refEmail02.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String gEmail = dataSnapshot.getValue(String.class);
+                if(email.equals(gEmail)){
+                    configCard.setClickable(false);
+                    shareCard.setClickable(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        refEmail03.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String gEmail = dataSnapshot.getValue(String.class);
+                if(email.equals(gEmail)){
+                    configCard.setClickable(false);
+                    shareCard.setClickable(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     private void share() {

@@ -131,6 +131,22 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Quyền"
+            app:boxStrokeWidthFocused="2dp"
+            app:endIconMode="dropdown_menu"
+            android:layout_marginTop="10dp">
+            <AutoCompleteTextView
+                android:id="@+id/Role_share"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:fontFamily="@font/muli_black"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:id="@+id/share_button"
             android:layout_width="match_parent"

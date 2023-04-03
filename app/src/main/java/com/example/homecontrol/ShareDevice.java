@@ -5,11 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +31,10 @@ public class ShareDevice extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference refUid02, refUid03, refEmail02, refEmail03, refRole02, refRole03;;
     int cou1 = 0, cou2 = 0, delete1 = 0, delete2 = 0;
+    String[] roleItem = {"Đọc", "Đọc/Ghi"};
+    AutoCompleteTextView role;
+    ArrayAdapter<String> adapterItemRole;
+    String gRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,23 +49,26 @@ public class ShareDevice extends AppCompatActivity {
         backBtn = findViewById(R.id.back_btn);
         deleteEmail1 = findViewById(R.id.delete_email1);
         deleteEmail2 = findViewById(R.id.delete_email2);
+        role = findViewById(R.id.Role_share);
+        adapterItemRole = new ArrayAdapter<String>(this, R.layout.list_item_dropmenu, roleItem);
+        role.setAdapter(adapterItemRole);
 
         database = FirebaseDatabase.getInstance();
-        refEmail02 = database.getReference( path + "UID-02/email");
-        refEmail03 = database.getReference( path + "UID-03/email");
-        refUid02 = database.getReference( path + "UID-02/uid");
-        refUid03 = database.getReference( path + "UID-03/uid");
-        refRole02 = database.getReference( path + "UID-02/role");
-        refRole03 = database.getReference( path + "UID-03/role");
+        refEmail02 = database.getReference(path + "UID-02/email");
+        refEmail03 = database.getReference(path + "UID-03/email");
+        refUid02 = database.getReference(path + "UID-02/uid");
+        refUid03 = database.getReference(path + "UID-03/uid");
+        refRole02 = database.getReference(path + "UID-02/role");
+        refRole03 = database.getReference(path + "UID-03/role");
 
         refEmail02.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String gEmail = dataSnapshot.getValue(String.class);
-                if(gEmail.equals("null")){
+                if (gEmail.equals("null")) {
                     email1.setText("share1@gmail.com");
                     cou1 = 0;
-                }else{
+                } else {
                     email1.setText(gEmail);
                     cou1 = 1;
                 }
@@ -73,10 +85,10 @@ public class ShareDevice extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String gEmail = dataSnapshot.getValue(String.class);
-                if(gEmail.equals("null")){
+                if (gEmail.equals("null")) {
                     email2.setText("share2@gmail.com");
                     cou2 = 0;
-                }else{
+                } else {
                     email2.setText(gEmail);
                     cou2 = 1;
                 }
@@ -92,16 +104,23 @@ public class ShareDevice extends AppCompatActivity {
         shareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                gRole = role.getText().toString();
                 delete1 = 0;
                 delete2 = 0;
-                if(cou1 == 0){
+                if (cou1 == 0) {
                     refEmail02.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String gEmail = dataSnapshot.getValue(String.class);
-                            if(gEmail.equals("null") && delete1 == 0){
+                            if (gRole.isEmpty() || input_email.getText().toString().trim().isEmpty()) {
+                                Toast.makeText(ShareDevice.this, "Vui lòng chọn quyền hoặc Email", Toast.LENGTH_SHORT).show();
+                            } else if (gEmail.equals("null") && delete1 == 0) {
                                 refEmail02.setValue(input_email.getText().toString().trim());
-                                refRole02.setValue("Read/Write");
+                                if (gRole.equals("Đọc")) {
+                                    refRole02.setValue("Read");
+                                } else {
+                                    refRole02.setValue("Read/Write");
+                                }
                             }
                         }
 
@@ -110,14 +129,20 @@ public class ShareDevice extends AppCompatActivity {
 
                         }
                     });
-                }else{
+                } else {
                     refEmail03.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String gEmail = dataSnapshot.getValue(String.class);
-                            if(gEmail.equals("null") && delete2 == 0){
+                            if (gRole.isEmpty()) {
+                                Toast.makeText(ShareDevice.this, "Vui lòng chọn quyền", Toast.LENGTH_SHORT).show();
+                            } else if (gEmail.equals("null") && delete2 == 0) {
                                 refEmail03.setValue(input_email.getText().toString().trim());
-                                refRole03.setValue("Read/Write");
+                                if (gRole.equals("Đọc")) {
+                                    refRole02.setValue("Read");
+                                } else {
+                                    refRole02.setValue("Read/Write");
+                                }
                             }
                         }
 

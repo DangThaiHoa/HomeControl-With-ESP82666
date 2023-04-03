@@ -49,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
 
         refUidESP = database.getReference( path + "UID-01/uid");
-        refShare1 = database.getReference( path + "UID-02/email");
-        refShare2 = database.getReference( path + "UID-03/email");
         refUid1 = database.getReference( path + "UID-02/uid");
         refUid2 = database.getReference( path + "UID-03/uid");
+        refShare1 = database.getReference( path + "UID-02/email");
+        refShare2 = database.getReference( path + "UID-03/email");
         FirebaseUser userUID = FirebaseAuth.getInstance().getCurrentUser();
         uid = userUID.getUid();
         email = userUID.getEmail();
@@ -188,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             ShowDiaLog();
         }
+
     }
 
     private void ShowDiaLog() {

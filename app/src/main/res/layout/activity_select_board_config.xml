@@ -121,7 +121,7 @@
             android:id="@+id/reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Giữ 3 giây để đặt lại mạch thủ công"
+            android:text="Giữ 3 giây để đặt lại mạch thủ công\n Đèn trên mạch sẽ nhấp nháy 5 lần"
             android:fontFamily="@font/muli_black"
             android:textColor="@color/red"
             android:textSize="15sp"

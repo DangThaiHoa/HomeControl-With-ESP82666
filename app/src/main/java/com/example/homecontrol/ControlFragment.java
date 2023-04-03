@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -64,7 +66,7 @@ public class ControlFragment extends Fragment {
     Button OpenCloseRoof, led1, led2, led3;
     TextView roof,textLed1,textLed2,textLed3, textModeServo;
     FirebaseDatabase database;
-    DatabaseReference refAngleServo, refTrigServo, refModeServo, refWaterSensor, refDate, refTime, refErrorDS1302, refLed1, refLed2, refLed3;
+    DatabaseReference refAngleServo, refTrigServo, refModeServo, refWaterSensor, refDate, refTime, refErrorDS1302, refLed1, refLed2, refLed3, refRole1, refRole2, refEmail01, refEmail02;
     CardView cardServo;
     int AngleCur, sLed1, sLed2, sLed3;
     ImageView weaControl, imageLed1, imageLed2, imageLed3;
@@ -120,6 +122,11 @@ public class ControlFragment extends Fragment {
         refLed1 = database.getReference(path + "LED/led1");
         refLed2 = database.getReference(path + "LED/led2");
         refLed3 = database.getReference(path + "LED/led3");
+
+        refRole1 = database.getReference("HomeControl/ESP8266/Users/UID-02/role");
+        refRole2 = database.getReference("HomeControl/ESP8266/Users/UID-03/role");
+        refEmail01 = database.getReference("HomeControl/ESP8266/Users/UID-02/email");
+        refEmail02 = database.getReference("HomeControl/ESP8266/Users/UID-03/email");
 
 
         refAngleServo.addValueEventListener(new ValueEventListener() {
@@ -231,7 +238,77 @@ public class ControlFragment extends Fragment {
 
         AutoRoof();
 
+        Role();
+
         return view;
+    }
+
+    private void Role() {
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String email = user.getEmail();
+        refEmail01.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String gEmail = dataSnapshot.getValue(String.class);
+                if(email.equals(gEmail)){
+                    refRole1.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String gRole = snapshot.getValue(String.class);
+                            if(gRole.equals("Read")){
+                                OpenCloseRoof.setClickable(false);
+                                led1.setClickable(false);
+                                led2.setClickable(false);
+                                led3.setClickable(false);
+                                textModeServo.setClickable(false);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        refEmail02.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String gEmail = dataSnapshot.getValue(String.class);
+                if(email.equals(gEmail)){
+                    refRole2.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String gRole = snapshot.getValue(String.class);
+                            if(gRole.equals("Read")){
+                                OpenCloseRoof.setClickable(false);
+                                led1.setClickable(false);
+                                led2.setClickable(false);
+                                led3.setClickable(false);
+                                textModeServo.setClickable(false);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     private void AutoRoof() {
