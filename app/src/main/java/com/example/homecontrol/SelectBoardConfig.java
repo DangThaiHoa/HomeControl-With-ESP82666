@@ -34,15 +34,15 @@ import java.util.ArrayList;
 
 public class SelectBoardConfig extends AppCompatActivity {
 
-    TextView tu;
+    TextView tu,dis;
     Button reset;
-    ImageView backBtn, check;
+    ImageView backBtn, check, delete;
     LinearLayout esp_config;
     CardView Rcard;
     String uid;
     ProgressLoading progressLoading;
     FirebaseDatabase database;
-    DatabaseReference refUidESP, refReset;
+    DatabaseReference refUidESP, refReset, refConnect, refEmail;
     String path = "HomeControl/ESP8266/Users/";
 
     @Override
@@ -58,10 +58,14 @@ public class SelectBoardConfig extends AppCompatActivity {
         reset = findViewById(R.id.btnFactoryReset);
         Rcard = findViewById(R.id.card_reset);
         tu = findViewById(R.id.tutorial);
+        dis = findViewById(R.id.disconnect);
+        delete = findViewById(R.id.delete_board);
 
         database = FirebaseDatabase.getInstance();
         refUidESP = database.getReference( path + "UID-01/uid");
+        refEmail = database.getReference( path + "UID-01/email");
         refReset = database.getReference( "HomeControl/ESP8266/Reset");
+        refConnect = database.getReference( "HomeControl/ESP8266/Connect");
         FirebaseUser userUID = FirebaseAuth.getInstance().getCurrentUser();
         uid = userUID.getUid();
 
@@ -74,11 +78,13 @@ public class SelectBoardConfig extends AppCompatActivity {
                     reset.setVisibility(View.VISIBLE);
                     Rcard.setVisibility(View.VISIBLE);
                     tu.setVisibility(View.INVISIBLE);
+                    delete.setVisibility(View.VISIBLE);
                 }else{
                     check.setVisibility(View.INVISIBLE);
                     reset.setVisibility(View.INVISIBLE);
                     Rcard.setVisibility(View.INVISIBLE);
                     tu.setVisibility(View.VISIBLE);
+                    delete.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -136,6 +142,57 @@ public class SelectBoardConfig extends AppCompatActivity {
         });
 
         backBtn();
+
+        CheckBoardConnect();
+
+        DeleteBoard();
+    }
+
+    private void DeleteBoard() {
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refUidESP.setValue("null");
+                refEmail.setValue("null");
+                refReset.setValue(1);
+            }
+        });
+
+    }
+
+    private void CheckBoardConnect() {
+
+        refConnect.setValue("null");
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refConnect.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String gCon = dataSnapshot.getValue(String.class);
+                        if(gCon.equals("null")){
+                            dis.setVisibility(View.VISIBLE);
+                            check.setImageResource(R.drawable.baseline_close_24);
+                            Rcard.setVisibility(View.INVISIBLE);
+                            delete.setVisibility(View.INVISIBLE);
+                        }else{
+                            dis.setVisibility(View.INVISIBLE);
+                            check.setImageResource(R.drawable.baseline_check_24);
+                            Rcard.setVisibility(View.VISIBLE);
+                            delete.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        },5000);
+
     }
 
     private void backBtn() {

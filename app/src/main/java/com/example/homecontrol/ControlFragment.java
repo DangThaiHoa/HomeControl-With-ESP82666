@@ -161,7 +161,7 @@ public class ControlFragment extends Fragment {
                         OpenCloseRoof.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if (status > 50 && textModeServo.getText().toString().equals("Tự Động")) {
+                                if (status > 100 && textModeServo.getText().toString().equals("Tự Động")) {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setCancelable(false);
                                     View viewDialog = LayoutInflater.from(getActivity()).inflate(R.layout.alert_override_servo, view.findViewById(R.id.alert_servo));
@@ -321,11 +321,11 @@ public class ControlFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshotMode) {
                         String mode = dataSnapshotMode.getValue(String.class);
-                        if (getWaterData > 50 && mode.equals("Auto")) {
+                        if (getWaterData > 100 && mode.equals("Auto")) {
                             refTrigServo.setValue("Trig");
                             refAngleServo.setValue(0);
                             refTrigServo.setValue("null");
-                        }else if(getWaterData < 50 && mode.equals("Auto")){
+                        }else if(getWaterData < 100 && mode.equals("Auto")){
                             refTrigServo.setValue("Trig");
                             refAngleServo.setValue(180);
                             refTrigServo.setValue("null");
@@ -442,7 +442,7 @@ public class ControlFragment extends Fragment {
                     public void run() {
                         progressLoading.dismiss();
                     }
-                },5000);
+                },1000);
             }
         });
 
@@ -457,7 +457,7 @@ public class ControlFragment extends Fragment {
                     public void run() {
                         progressLoading.dismiss();
                     }
-                },5000);
+                },1000);
             }
         });
 
@@ -472,7 +472,7 @@ public class ControlFragment extends Fragment {
                     public void run() {
                         progressLoading.dismiss();
                     }
-                },5000);
+                },1000);
             }
         });
 
@@ -519,17 +519,17 @@ public class ControlFragment extends Fragment {
                 String[] parts = string.split(":");
                 String hour = parts[0];
                 if(Integer.parseInt(hour) >= 6 && Integer.parseInt(hour) < 18){
-                    if(getWaterData <= 50){
+                    if(getWaterData <= 100){
                         weaControl.setImageResource(R.drawable.sun);
-                    }else if (getWaterData >= 50 && getWaterData <= 350){
+                    }else if (getWaterData >= 100 && getWaterData <= 500){
                         weaControl.setImageResource(R.drawable.raining);
                     }else{
                         weaControl.setImageResource(R.drawable.storm);
                     }
                 }else{
-                    if(getWaterData <= 50){
+                    if(getWaterData <= 100){
                         weaControl.setImageResource(R.drawable.moon);
-                    }else if (getWaterData >= 50 && getWaterData <= 350){
+                    }else if (getWaterData >= 100    && getWaterData <= 500){
                         weaControl.setImageResource(R.drawable.raining);
                     }else{
                         weaControl.setImageResource(R.drawable.storm);

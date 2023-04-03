@@ -241,11 +241,11 @@ public class WeatherInformationFragment extends Fragment {
                 String[] parts = string.split(":");
                 String hour = parts[0];
                 if(Integer.parseInt(hour) >= 6 && Integer.parseInt(hour) < 18){
-                    if(getWaterData <= 50){
+                    if(getWaterData <= 100){
                         weather.setText("Nắng");
                         weatherImage.setImageResource(R.drawable.sun);
                         weaCard.setCardBackgroundColor(Color.parseColor("yellow"));
-                    }else if (getWaterData >= 50 && getWaterData <= 500){
+                    }else if (getWaterData >= 100 && getWaterData <= 500){
                         weather.setText("Mưa Nhỏ");
                         weatherImage.setImageResource(R.drawable.raining);
                         weaCard.setCardBackgroundColor(Color.parseColor("blue"));
@@ -255,11 +255,11 @@ public class WeatherInformationFragment extends Fragment {
                         weaCard.setCardBackgroundColor(Color.parseColor("black"));
                     }
                 }else{
-                    if(getWaterData <= 50){
+                    if(getWaterData <= 100){
                         weather.setText("Đêm");
                         weatherImage.setImageResource(R.drawable.moon);
                         weaCard.setCardBackgroundColor(Color.parseColor("black"));
-                    }else if (getWaterData >= 50 && getWaterData <= 500){
+                    }else if (getWaterData >= 100 && getWaterData <= 500){
                         weather.setText("Mưa Nhỏ");
                         weatherImage.setImageResource(R.drawable.raining);
                         weaCard.setCardBackgroundColor(Color.parseColor("blue"));
