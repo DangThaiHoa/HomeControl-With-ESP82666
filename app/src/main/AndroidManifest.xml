@@ -17,6 +17,9 @@
         android:theme="@style/Theme.HomeControl"
         tools:targetApi="31">
         <activity
+            android:name=".ChangePassword"
+            android:exported="false" />
+        <activity
             android:name=".ShareDevice"
             android:exported="false" />
         <activity

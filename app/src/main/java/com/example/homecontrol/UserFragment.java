@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.core.view.Change;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,7 +66,7 @@ public class UserFragment extends Fragment {
     DatabaseReference refEmail,refName, refEmail02, refEmail03;
     TextView tName, tEmail;
     String uid;
-    CardView configCard, shareCard;
+    CardView configCard, shareCard, changePasscard;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,6 +89,7 @@ public class UserFragment extends Fragment {
 
         configCard = view.findViewById(R.id.card_icon_Config_profile);
         shareCard = view.findViewById(R.id.card_icon_share_profile);
+        changePasscard = view.findViewById(R.id.card_icon_Password_profile);
 
         database = FirebaseDatabase.getInstance();
 
@@ -108,7 +110,21 @@ public class UserFragment extends Fragment {
 
         Role();
 
+        changePass();
+
         return view;
+    }
+
+    private void changePass() {
+
+        changePasscard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ChangePassword.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void Role() {
