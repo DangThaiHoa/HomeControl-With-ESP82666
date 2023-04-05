@@ -17,6 +17,15 @@
         android:theme="@style/Theme.HomeControl"
         tools:targetApi="31">
         <activity
+            android:name=".CompleteSendEmail"
+            android:exported="false" />
+        <activity
+            android:name=".ForgetPassword"
+            android:exported="false" />
+        <activity
+            android:name=".AppInformation"
+            android:exported="false" />
+        <activity
             android:name=".ChangePassword"
             android:exported="false" />
         <activity

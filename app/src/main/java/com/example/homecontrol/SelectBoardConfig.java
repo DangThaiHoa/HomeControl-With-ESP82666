@@ -156,6 +156,13 @@ public class SelectBoardConfig extends AppCompatActivity {
                 refUidESP.setValue("null");
                 refEmail.setValue("null");
                 refReset.setValue(1);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refReset.setValue(0);
+                    }
+                },2000);
             }
         });
 

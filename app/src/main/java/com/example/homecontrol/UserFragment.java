@@ -66,7 +66,7 @@ public class UserFragment extends Fragment {
     DatabaseReference refEmail,refName, refEmail02, refEmail03;
     TextView tName, tEmail;
     String uid;
-    CardView configCard, shareCard, changePasscard;
+    CardView configCard, shareCard, changePasscard, infoCard;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,6 +90,7 @@ public class UserFragment extends Fragment {
         configCard = view.findViewById(R.id.card_icon_Config_profile);
         shareCard = view.findViewById(R.id.card_icon_share_profile);
         changePasscard = view.findViewById(R.id.card_icon_Password_profile);
+        infoCard = view.findViewById(R.id.card_icon_Info_profile);
 
         database = FirebaseDatabase.getInstance();
 
@@ -112,7 +113,21 @@ public class UserFragment extends Fragment {
 
         changePass();
 
+        infoCard();
+
         return view;
+    }
+
+    private void infoCard() {
+
+        infoCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AppInformation.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void changePass() {

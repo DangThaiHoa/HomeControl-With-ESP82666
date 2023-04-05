@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class ChangePassword extends AppCompatActivity {
 
     ImageView btnBack;
-    TextInputEditText ENewPassword, EConfirmPassword;
+    TextInputEditText ENewPassword, EConfirmPassword, EOldPassword;
     Button submitBtn;
     ProgressLoading progressLoading;
 
@@ -37,6 +37,7 @@ public class ChangePassword extends AppCompatActivity {
         btnBack = findViewById(R.id.back_btn);
         ENewPassword = findViewById(R.id.Txt_new_Password_Profile);
         EConfirmPassword = findViewById(R.id.Txt_confirm_Password_Profile);
+        EOldPassword = findViewById(R.id.Txt_old_Password_Profile);
         submitBtn = findViewById(R.id.btn_Submit_Change_Password_profile);
 
         submitBtn();
@@ -47,6 +48,7 @@ public class ChangePassword extends AppCompatActivity {
 
         String gNewPassword = ENewPassword.getText().toString();
         String gRePassword = EConfirmPassword.getText().toString();
+        String gOldPassword = EOldPassword.getText().toString();
 
         if (gNewPassword.isEmpty() || gRePassword.isEmpty()) {
 
@@ -57,42 +59,40 @@ public class ChangePassword extends AppCompatActivity {
             if (gNewPassword.length() >= 6) {
 
                 if (gNewPassword.equals(gRePassword)) {
+
+                    FirebaseUser userUID = FirebaseAuth.getInstance().getCurrentUser();
+                    String email = userUID.getEmail();
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
                     AuthCredential credential = EmailAuthProvider
-                            .getCredential("user@example.com", "password1234");
-
+                            .getCredential(email, gOldPassword);
                     user.reauthenticate(credential)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                            String newPassword = gNewPassword;
+                                            progressLoading.show();
+                                            user.updatePassword(newPassword)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                progressLoading.dismiss();
+                                                                Toast.makeText(ChangePassword.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                                                                FirebaseAuth.getInstance().signOut();
+                                                                Intent intent = new Intent(ChangePassword.this, Login.class);
+                                                                startActivity(intent);
+                                                                finishAffinity();
+                                                            }
+                                                        }
+                                                    });
+                                        }
+                                    }, 2000);
                                 }
                             });
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            String newPassword = gNewPassword;
-
-                            user.updatePassword(newPassword)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                progressLoading.dismiss();
-                                                Toast.makeText(ChangePassword.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
-                                                FirebaseAuth.getInstance().signOut();
-                                                Intent intent = new Intent(ChangePassword.this, Login.class);
-                                                startActivity(intent);
-                                                finishAffinity();
-                                            }
-                                        }
-                                    });
-                        }
-                    }, 2000);
-
                 } else {
 
                     Toast.makeText(this, "Vui Lòng Nhập Hai Mật Khẩu Giống Nhau", Toast.LENGTH_SHORT).show();

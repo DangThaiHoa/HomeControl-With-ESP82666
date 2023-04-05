@@ -2,4 +2,8 @@
     <string name="app_name">HomeControl</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_version">Beta 0.80</string>
+    <string name="app_create">Phát triển bởi Đặng Thái Hòa và Trương Hoàng Phúc</string>
+    <string name="app_info">390 Hoàng Văn Thụ, Phường 4, Tân Bình, Thành phố Hồ Chí Minh</string>
+    <string name="app_copyRight">2023 - 2023</string>
 </resources>

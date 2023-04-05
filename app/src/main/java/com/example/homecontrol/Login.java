@@ -95,6 +95,19 @@ public class Login extends AppCompatActivity {
 
         signupBtn();
         backBtn();
+        forgetPassword();
+    }
+
+    private void forgetPassword() {
+
+        forgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Login.this, ForgetPassword.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void signupBtn() {
