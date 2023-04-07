@@ -27,23 +27,11 @@
             android:gravity="center"/>
 
         <Button
-            android:id="@+id/open_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Mở Email"/>
-
-        <Button
             android:id="@+id/back_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="Login"
-            android:fontFamily="@font/muli_black"
-            android:textColor="@color/black"
-            android:background="#00000000"
-            android:textAllCaps="true"/>
+            android:layout_marginTop="20dp"
+            android:text="Login"/>
 
     </LinearLayout>
 

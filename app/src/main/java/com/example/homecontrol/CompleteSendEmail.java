@@ -18,7 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class CompleteSendEmail extends AppCompatActivity {
 
-    Button email, login;
+    Button login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,17 +26,7 @@ public class CompleteSendEmail extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_complete_send_email);
 
-        email = findViewById(R.id.open_email);
         login = findViewById(R.id.back_login);
-
-        email.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-                startActivity(intent);
-            }
-        });
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
