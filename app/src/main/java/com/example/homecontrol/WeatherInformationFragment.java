@@ -1,17 +1,13 @@
 package com.example.homecontrol;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,15 +15,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,7 +67,7 @@ public class WeatherInformationFragment extends Fragment {
     CardView tempCard, humCard, weaCard;
     ImageView weatherImage;
     ProgressBar tempPro, humPro;
-    Button btnChart;
+    Button btnChartTemp, btnChartHum;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,7 +93,8 @@ public class WeatherInformationFragment extends Fragment {
         errorWea = view.findViewById(R.id.textWeatherError);
         tempPro = view.findViewById(R.id.proTem);
         humPro = view.findViewById(R.id.proHum);
-        btnChart = view.findViewById(R.id.chartButton);
+        btnChartTemp = view.findViewById(R.id.chartTempButton);
+        btnChartHum = view.findViewById(R.id.chartHumButton);
 
         tempCard = view.findViewById(R.id.cardTemp);
         humCard = view.findViewById(R.id.cardHum);
@@ -119,10 +113,18 @@ public class WeatherInformationFragment extends Fragment {
         refTime = database.getReference(path + "DS1302/time");
         refErrorDS1302 = database.getReference(path + "DS1302/error");
 
-        btnChart.setOnClickListener(new View.OnClickListener() {
+        btnChartTemp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), LineChartTempHum.class);
+                Intent intent = new Intent(getActivity(), LineChartTemp.class);
+                startActivity(intent);
+            }
+        });
+
+        btnChartHum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), LineChartHum.class);
                 startActivity(intent);
             }
         });

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".LineChartTemp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize">
+
+        <ImageView
+            android:id="@+id/back_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/baseline_arrow_back_24"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Biểu Đồ Nhiệt Độ"
+            android:textColor="@color/black"
+            android:fontFamily="@font/muli_black"
+            android:textSize="30sp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textDHTError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cảm biến bị lỗi hoặc \nchưa được kết nối với Internet\n vui lòng kiểm tra lại cảm biến để xem biểu đồ"
+            android:fontFamily="@font/muli_black"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_centerInParent="true"
+            android:elevation="20dp"
+            android:textAlignment="center"
+            android:background="@drawable/background_card_error"
+            android:padding="10dp"/>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart_tem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+    
+</LinearLayout>
