@@ -122,6 +122,7 @@ public class ColorPickerLed extends Fragment implements SeekBar.OnSeekBarChangeL
                 sRed.setProgress(red);
                 sGreen.setProgress(green);
                 sBlue.setProgress(blue);
+
             }
         });
 
