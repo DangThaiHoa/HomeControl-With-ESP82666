@@ -14,6 +14,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,16 +22,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
+import java.text.Format;
 import java.util.ArrayList;
 
 public class LineChartTempHum extends AppCompatActivity {
 
     LineChart lineChart;
-    String path = "HomeControl/ESP8266/DATA/";
-    DatabaseReference refTemp, refHum;
+    String path = "HomeControl/ESP8266/ChartData/";
+    DatabaseReference refChartTemp, refChartHum;
     FirebaseDatabase database;
-    ArrayList<Entry> entryArrayList;
-    int aTemp[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +41,30 @@ public class LineChartTempHum extends AppCompatActivity {
         lineChart = findViewById(R.id.chart_tem_hum);
 
         database = FirebaseDatabase.getInstance();
-        refTemp = database.getReference(path + "DHT11/temp");
-        refHum = database.getReference(path + "DHT11/hum");
+        refChartTemp = database.getReference(path + "Temperature");
+        refChartHum = database.getReference(path + "Humanity");
 
-        refTemp.addValueEventListener(new ValueEventListener() {
+
+        retrieveData();
+    }
+
+    private void retrieveData() {
+
+        refChartTemp.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                Float getTemp = snapshot.getValue(Float.class);
+                ArrayList<Entry> tempArrayList = new ArrayList<Entry>();
+                if(snapshot.hasChildren()){
+                    for(DataSnapshot mySP : snapshot.getChildren()){
+                        int x = mySP.child("x").getValue(Integer.class);
+                        float y = mySP.child("y").getValue(Float.class);
+                        tempArrayList.add(new Entry(x,y));
+                    }
+                    showChart(tempArrayList);
+                }else{
+                    lineChart.clear();
+                    lineChart.invalidate();
+                }
             }
 
             @Override
@@ -55,31 +72,24 @@ public class LineChartTempHum extends AppCompatActivity {
 
             }
         });
-
-        lineChar();
     }
 
-    private void setData(int pos, int value) {
-        entryArrayList = new ArrayList<>();
-        entryArrayList.add(new BarEntry(pos, value));
+    private void showChart(ArrayList<Entry> tempArrayList) {
 
-    }
-
-    private void lineChar() {
-
-        LineDataSet lineDataSet = new LineDataSet(entryArrayList,"Nhiệt Độ");
+        LineDataSet lineDataSet = new LineDataSet(tempArrayList,"Nhiệt Dộ");
         lineDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         lineDataSet.setValueTextColor(Color.BLACK);
-        lineDataSet.setValueTextSize(15f);
+        lineDataSet.setValueTextSize(10f);
 
         LineData lineData = new LineData(lineDataSet);
         lineChart.setData(lineData);
 
         lineChart.setDrawBorders(true);
         lineChart.setBorderColor(Color.parseColor("#FF9800"));
-        lineChart.getDescription().setText("Biểu Đồ Nhiệt Độ/Độ Ẩm");
+        lineChart.getDescription().setText("Biểu Đồ Nhiệt Độ");
         lineChart.getDescription().setTextSize(15);
         lineChart.getDescription().setTextColor(Color.parseColor("#FF9800"));
         lineChart.animateY(2000);
+
     }
 }
