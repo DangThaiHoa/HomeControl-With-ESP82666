@@ -1,6 +1,7 @@
 package com.example.homecontrol;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
@@ -16,7 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -70,6 +73,8 @@ public class WeatherInformationFragment extends Fragment {
     FirebaseDatabase database;
     CardView tempCard, humCard, weaCard;
     ImageView weatherImage;
+    ProgressBar tempPro, humPro;
+    Button btnChart;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,6 +98,9 @@ public class WeatherInformationFragment extends Fragment {
         date = view.findViewById(R.id.Date);
         time = view.findViewById(R.id.Time);
         errorWea = view.findViewById(R.id.textWeatherError);
+        tempPro = view.findViewById(R.id.proTem);
+        humPro = view.findViewById(R.id.proHum);
+        btnChart = view.findViewById(R.id.chartButton);
 
         tempCard = view.findViewById(R.id.cardTemp);
         humCard = view.findViewById(R.id.cardHum);
@@ -110,6 +118,14 @@ public class WeatherInformationFragment extends Fragment {
         refDate = database.getReference(path + "DS1302/date");
         refTime = database.getReference(path + "DS1302/time");
         refErrorDS1302 = database.getReference(path + "DS1302/error");
+
+        btnChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), LineChartTempHum.class);
+                startActivity(intent);
+            }
+        });
 
         ReadDHT11();
 
@@ -131,6 +147,8 @@ public class WeatherInformationFragment extends Fragment {
                     errorDHT.setVisibility(View.VISIBLE);
                     temp.setText("Null");
                     hum.setText("Null");
+                    tempPro.setProgress(0);
+                    humPro.setProgress(0);
                 }else{
                     errorDHT.setVisibility(View.INVISIBLE);
                     refTemp.addValueEventListener(new ValueEventListener() {
@@ -140,6 +158,7 @@ public class WeatherInformationFragment extends Fragment {
                             // whenever data at this location is updated.
                             Float getTemp = dataSnapshot.getValue(Float.class);
                             temp.setText(getTemp.toString() + "\u2103");
+                            tempPro.setProgress(Math.round(getTemp));
                             if(getTemp < 20){
                                 tempCard.setCardBackgroundColor(Color.parseColor("blue"));
                             }else if(getTemp >= 20 && getTemp <= 35){
@@ -161,6 +180,7 @@ public class WeatherInformationFragment extends Fragment {
                             // whenever data at this location is updated.
                             Float getHum = dataSnapshot.getValue(Float.class);
                             hum.setText(getHum.toString() + "%");
+                            humPro.setProgress(Math.round(getHum));
                             if(getHum < 40){
                                 humCard.setCardBackgroundColor(Color.parseColor("blue"));
                             }else if(getHum >= 40 && getHum <= 70){
@@ -232,7 +252,7 @@ public class WeatherInformationFragment extends Fragment {
         });
     }
 
-    private void ReadWeather(String time){
+    private void ReadWeather(String time) {
         refWaterSensor.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -240,30 +260,30 @@ public class WeatherInformationFragment extends Fragment {
                 String string = time;
                 String[] parts = string.split(":");
                 String hour = parts[0];
-                if(Integer.parseInt(hour) >= 6 && Integer.parseInt(hour) < 18){
-                    if(getWaterData <= 100){
+                if (Integer.parseInt(hour) >= 6 && Integer.parseInt(hour) < 18) {
+                    if (getWaterData <= 100) {
                         weather.setText("Nắng");
                         weatherImage.setImageResource(R.drawable.sun);
                         weaCard.setCardBackgroundColor(Color.parseColor("yellow"));
-                    }else if (getWaterData >= 100 && getWaterData <= 500){
+                    } else if (getWaterData >= 100 && getWaterData <= 500) {
                         weather.setText("Mưa Nhỏ");
                         weatherImage.setImageResource(R.drawable.raining);
                         weaCard.setCardBackgroundColor(Color.parseColor("blue"));
-                    }else{
+                    } else {
                         weather.setText("Mưa Lớn");
                         weatherImage.setImageResource(R.drawable.storm);
                         weaCard.setCardBackgroundColor(Color.parseColor("black"));
                     }
-                }else{
-                    if(getWaterData <= 100){
+                } else {
+                    if (getWaterData <= 100) {
                         weather.setText("Đêm");
                         weatherImage.setImageResource(R.drawable.moon);
                         weaCard.setCardBackgroundColor(Color.parseColor("black"));
-                    }else if (getWaterData >= 100 && getWaterData <= 500){
+                    } else if (getWaterData >= 100 && getWaterData <= 500) {
                         weather.setText("Mưa Nhỏ");
                         weatherImage.setImageResource(R.drawable.raining);
                         weaCard.setCardBackgroundColor(Color.parseColor("blue"));
-                    }else{
+                    } else {
                         weather.setText("Mưa Lớn");
                         weatherImage.setImageResource(R.drawable.storm);
                         weaCard.setCardBackgroundColor(Color.parseColor("black"));

@@ -31,11 +31,19 @@
 
         </RelativeLayout>
 
+        <Button
+            android:id="@+id/chartButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/muli_black"
+            android:layout_gravity="center"
+            android:text="Xem Biểu Đồ"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp">
+            android:layout_marginTop="20dp">
 
             <TextView
                 android:id="@+id/textDHTError"
@@ -55,7 +63,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardTemp"
                 android:layout_width="170dp"
-                android:layout_height="150dp"
+                android:layout_height="180dp"
                 android:elevation="10dp"
                 app:cardBackgroundColor="@color/green"
                 app:cardCornerRadius="20dp"
@@ -64,7 +72,7 @@
 
                 <RelativeLayout
                     android:layout_width="170dp"
-                    android:layout_height="140dp"
+                    android:layout_height="170dp"
                     android:background="@drawable/card"
                     android:layout_marginTop="10dp">
 
@@ -72,11 +80,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="5dp"
                         android:fontFamily="@font/muli_black"
                         android:text="Nhiệt Độ"
                         android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"/>
+
+                    <ProgressBar
+                        android:id="@+id/proTem"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:progress="50"
+                        android:rotation="180"
+                        android:min="-20"
+                        android:max="60"
+                        android:indeterminateOnly="false"
+                        android:progressDrawable="@drawable/circle"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="40dp"/>
+
 
                     <TextView
                         android:id="@+id/Temperature"
@@ -85,9 +107,9 @@
                         android:layout_centerHorizontal="true"
                         android:fontFamily="@font/muli_black"
                         android:text="29.30 C"
+                        android:textSize="20sp"
                         android:textColor="@color/black"
-                        android:textSize="30sp"
-                        android:layout_marginTop="60dp"/>
+                        android:layout_marginTop="90dp"/>
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -95,7 +117,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardHum"
                 android:layout_width="170dp"
-                android:layout_height="150dp"
+                android:layout_height="180dp"
                 android:elevation="10dp"
                 app:cardBackgroundColor="@color/green"
                 app:cardCornerRadius="20dp"
@@ -104,19 +126,32 @@
 
                 <RelativeLayout
                     android:layout_width="170dp"
-                    android:layout_height="140dp"
+                    android:layout_height="170dp"
                     android:background="@drawable/card"
                     android:layout_marginTop="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
                         android:fontFamily="@font/muli_black"
                         android:text="Độ Ẩm"
                         android:textColor="@color/black"
-                        android:textSize="20sp"
+                        android:textSize="20sp"/>
+
+                    <ProgressBar
+                        android:id="@+id/proHum"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:progress="50"
+                        android:rotation="180"
+                        android:min="0"
+                        android:max="95"
+                        android:indeterminateOnly="false"
+                        android:progressDrawable="@drawable/circle"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="15dp"/>
+                        android:layout_marginTop="40dp"/>
 
                     <TextView
                         android:id="@+id/Humanity"
@@ -124,10 +159,10 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:fontFamily="@font/muli_black"
-                        android:text="55.00 %"
+                        android:text="55.00%"
+                        android:textSize="20sp"
                         android:textColor="@color/black"
-                        android:textSize="30sp"
-                        android:layout_marginTop="60dp"/>
+                        android:layout_marginTop="90dp"/>
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>

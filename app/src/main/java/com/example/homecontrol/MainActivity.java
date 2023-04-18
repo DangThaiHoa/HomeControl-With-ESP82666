@@ -76,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
                                     case R.id.control:
                                         replaceFragment(new ControlFragment());
                                         break;
+                                    case R.id.led:
+                                        replaceFragment(new ColorPickerLed());
+                                        break;
                                     case R.id.user:
                                         replaceFragment(new UserFragment());
                                         break;
@@ -104,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
                                                 case R.id.control:
                                                     replaceFragment(new ControlFragment());
                                                     break;
+                                                case R.id.led:
+                                                    replaceFragment(new ColorPickerLed());
+                                                    break;
                                                 case R.id.user:
                                                     replaceFragment(new UserFragment());
                                                     break;
@@ -131,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
                                                             case R.id.control:
                                                                 replaceFragment(new ControlFragment());
                                                                 break;
+                                                            case R.id.led:
+                                                                replaceFragment(new ColorPickerLed());
+                                                                break;
                                                             case R.id.user:
                                                                 replaceFragment(new UserFragment());
                                                                 break;
@@ -149,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
                                                             case R.id.weather:
                                                             case R.id.control:
+                                                            case R.id.led:
                                                                 replaceFragment(new UserFragment());
                                                                 Toast.makeText(MainActivity.this, "Vui lòng thiết lập mạch để sử dụng ứng dụng", Toast.LENGTH_SHORT).show();
                                                                 break;

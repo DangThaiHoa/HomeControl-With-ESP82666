@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".LineChartTempHum"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Biểu Đồ"
+            android:textColor="@color/black"
+            android:fontFamily="@font/muli_black"
+            android:textSize="30sp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+    
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart_tem_hum"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    
+</LinearLayout>

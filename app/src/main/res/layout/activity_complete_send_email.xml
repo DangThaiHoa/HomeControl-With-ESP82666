@@ -17,13 +17,13 @@
             android:layout_width="wrap_content"
             android:layout_height="150dp"
             android:src="@drawable/check"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gửi Email Thành Công, Hãy Kiểm Tra Hòm Thư Của Bạn"
-            android:textSize="30sp"
+            android:text="Gửi Email Thành Công, Hãy Kiểm Tra Hòm Thư Của Bạn, \n Nếu không thấy hãy thử kiểm tra thư rác"
+            android:textSize="20sp"
             android:gravity="center"/>
 
         <Button

@@ -70,7 +70,6 @@ public class ControlFragment extends Fragment {
     CardView cardServo;
     int AngleCur, sLed1, sLed2, sLed3;
     ImageView weaControl, imageLed1, imageLed2, imageLed3;
-
     ProgressLoading progressLoading;
 
     @Override
