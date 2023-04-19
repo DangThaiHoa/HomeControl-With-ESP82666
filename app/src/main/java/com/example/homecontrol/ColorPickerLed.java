@@ -3,6 +3,7 @@ package com.example.homecontrol;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
@@ -17,8 +18,11 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
@@ -65,9 +69,9 @@ public class ColorPickerLed extends Fragment implements SeekBar.OnSeekBarChangeL
     TextView code;
     TextInputEditText Ired,Igreen,Iblue;
     SeekBar sRed, sGreen, sBlue;
-    AppCompatButton setColor;
+    AppCompatButton setColor, onOffButton;
     FirebaseDatabase database;
-    DatabaseReference refRed, refGreen, refBlue;
+    DatabaseReference refRed, refGreen, refBlue, refBtn;
 
     int red = 0, green = 0, blue = 0;
 
@@ -90,6 +94,7 @@ public class ColorPickerLed extends Fragment implements SeekBar.OnSeekBarChangeL
         refRed = database.getReference( path + "RGB/red");
         refGreen = database.getReference(path + "RGB/green");
         refBlue = database.getReference(path + "RGB/blue");
+        refBtn = database.getReference(path + "RGB/OnOff");
 
         preColor = view.findViewById(R.id.pre_color);
         code = view.findViewById(R.id.rgbCode);
@@ -100,6 +105,7 @@ public class ColorPickerLed extends Fragment implements SeekBar.OnSeekBarChangeL
         sGreen = view.findViewById(R.id.seekbarGreen);
         sBlue = view.findViewById(R.id.seekbarBlue);
         setColor = view.findViewById(R.id.setColor_button);
+        onOffButton = view.findViewById(R.id.onOffButton);
 
         Ired.setFilters( new InputFilter[] { new MinMaxValueFilter("0", "255")});
         Igreen.setFilters( new InputFilter[] { new MinMaxValueFilter("0", "255")});
@@ -123,6 +129,27 @@ public class ColorPickerLed extends Fragment implements SeekBar.OnSeekBarChangeL
                 sGreen.setProgress(green);
                 sBlue.setProgress(blue);
 
+            }
+        });
+
+        onOffButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refBtn.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        int getTrig = snapshot.getValue(Integer.class);
+                        if(getTrig == 1){
+                            refBtn.setValue(0);
+                        }else{
+                            refBtn.setValue(1);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
 

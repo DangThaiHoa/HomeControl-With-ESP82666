@@ -50,6 +50,12 @@ public class LineChartTemp extends AppCompatActivity {
         backBtn();
     }
 
+    @Override
+    protected void onStart() {
+        retrieveData();
+        super.onStart();
+    }
+
     private void backBtn() {
 
         backBtn.setOnClickListener(new View.OnClickListener() {

@@ -177,8 +177,27 @@
             <View
                 android:id="@+id/pre_color"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="130dp"
                 android:layout_gravity="center_horizontal"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            app:cardCornerRadius="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/onOffButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Mở"
+                android:fontFamily="@font/muli_black"
+                android:background="@color/green" />
 
         </androidx.cardview.widget.CardView>
 
