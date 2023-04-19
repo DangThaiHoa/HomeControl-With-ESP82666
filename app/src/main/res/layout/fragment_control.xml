@@ -55,9 +55,11 @@
                         android:layout_marginTop="10dp">
 
                         <ImageView
+                            android:id="@+id/iconRoof"
                             android:layout_width="200dp"
                             android:layout_height="170dp"
-                            android:src="@drawable/roof"
+                            android:src="@drawable/closeroof"
+                            android:layout_marginTop="10dp"
                             android:layout_centerHorizontal="true"
                             android:padding="10dp"/>
 
@@ -73,25 +75,45 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_above="@+id/cardMode"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="16dp"
                             android:fontFamily="@font/muli_black"
                             android:text="Chế Độ"
+                            android:layout_marginBottom="35dp"
+                            android:layout_marginRight="32dp"
                             android:textColor="@color/black"
                             android:textSize="17sp" />
 
-                        <TextView
-                            android:id="@+id/textMode"
+                        <ImageView
+                            android:id="@+id/iconMode"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/auto"
+                            android:layout_above="@+id/cardMode"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginRight="45dp"/>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardMode"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Tự động"
-                            android:fontFamily="@font/muli_black"
-                            android:textSize="17sp"
-                            android:textColor="@color/black"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginRight="10dp"/>
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginRight="16dp"
+                            android:elevation="10dp"
+                            app:cardCornerRadius="15dp"
+                            android:layout_marginBottom="25dp">
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/btnMode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tự Động"
+                                android:fontFamily="@font/muli_black"
+                                android:background="@color/green" />
+
+                        </androidx.cardview.widget.CardView>
 
                         <TextView
                             android:layout_width="wrap_content"

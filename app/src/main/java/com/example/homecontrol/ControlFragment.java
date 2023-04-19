@@ -1,6 +1,7 @@
 package com.example.homecontrol;
 
 import android.graphics.Color;
+import android.graphics.drawable.Icon;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -63,13 +64,13 @@ public class ControlFragment extends Fragment {
     }
 
     String path = "HomeControl/ESP8266/DATA/";
-    Button OpenCloseRoof, led1, led2, led3;
-    TextView roof,textLed1,textLed2,textLed3, textModeServo;
+    Button OpenCloseRoof, led1, led2, led3, btnMode;
+    TextView roof,textLed1,textLed2,textLed3;
     FirebaseDatabase database;
     DatabaseReference refAngleServo, refTrigServo, refModeServo, refWaterSensor, refDate, refTime, refErrorDS1302, refLed1, refLed2, refLed3, refRole1, refRole2, refEmail01, refEmail02;
     CardView cardServo;
     int AngleCur, sLed1, sLed2, sLed3;
-    ImageView weaControl, imageLed1, imageLed2, imageLed3;
+    ImageView weaControl, imageLed1, imageLed2, imageLed3, IconMode, IconRoof;
     ProgressLoading progressLoading;
 
     @Override
@@ -91,7 +92,9 @@ public class ControlFragment extends Fragment {
         OpenCloseRoof = view.findViewById(R.id.btnOpenCloseRoof);
         roof = view.findViewById(R.id.textRoof);
         weaControl = view.findViewById(R.id.weatherControl);
-        textModeServo = view.findViewById(R.id.textMode);
+        btnMode = view.findViewById(R.id.btnMode);
+        IconMode = view.findViewById(R.id.iconMode);
+        IconRoof = view.findViewById(R.id.iconRoof);
 
         textLed1 = view.findViewById(R.id.textLed1);
         textLed2 = view.findViewById(R.id.textLed2);
@@ -135,12 +138,14 @@ public class ControlFragment extends Fragment {
                 if(Angle == 180){
                     roof.setText("Mở");
                     OpenCloseRoof.setText("Đóng");
+                    IconRoof.setImageResource(R.drawable.openroof);
                     OpenCloseRoof.setBackgroundColor(Color.parseColor("red"));
                     cardServo.setCardBackgroundColor(Color.parseColor("green"));
                     AngleCur = 0;
                 }else{
                     roof.setText("Đóng");
                     OpenCloseRoof.setText("Mở");
+                    IconRoof.setImageResource(R.drawable.closeroof);
                     OpenCloseRoof.setBackgroundColor(Color.parseColor("green"));
                     cardServo.setCardBackgroundColor(Color.parseColor("red"));
                     AngleCur = 180;
@@ -160,7 +165,7 @@ public class ControlFragment extends Fragment {
                         OpenCloseRoof.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if (status > 100 && textModeServo.getText().toString().equals("Tự Động")) {
+                                if (status > 100 && btnMode.getText().toString().equals("Tự Động")) {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setCancelable(false);
                                     View viewDialog = LayoutInflater.from(getActivity()).inflate(R.layout.alert_override_servo, view.findViewById(R.id.alert_servo));
@@ -218,10 +223,10 @@ public class ControlFragment extends Fragment {
                     }
                 });
 
-        textModeServo.setOnClickListener(new View.OnClickListener() {
+        btnMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(textModeServo.getText().equals("Tự Động")){
+                if(btnMode.getText().equals("Tự Động")){
                     refModeServo.setValue("Manual");
                 }else{
                     refModeServo.setValue("Auto");
@@ -260,7 +265,7 @@ public class ControlFragment extends Fragment {
                                 led1.setClickable(false);
                                 led2.setClickable(false);
                                 led3.setClickable(false);
-                                textModeServo.setClickable(false);
+                                btnMode.setClickable(false);
                             }
                         }
 
@@ -291,7 +296,7 @@ public class ControlFragment extends Fragment {
                                 led1.setClickable(false);
                                 led2.setClickable(false);
                                 led3.setClickable(false);
-                                textModeServo.setClickable(false);
+                                btnMode.setClickable(false);
                             }
                         }
 
@@ -330,9 +335,13 @@ public class ControlFragment extends Fragment {
                             refTrigServo.setValue("null");
                         }
                         if(mode.equals("Auto")){
-                            textModeServo.setText("Tự Động");
+                            btnMode.setText("Tự Động");
+                            btnMode.setBackgroundColor(Color.parseColor("green"));
+                            IconMode.setImageResource(R.drawable.auto);
                         }else{
-                            textModeServo.setText("Thủ Công");
+                            btnMode.setText("Thủ Công");
+                            btnMode.setBackgroundColor(Color.parseColor("red"));
+                            IconMode.setImageResource(R.drawable.manual);
                         }
                     }
                     @Override

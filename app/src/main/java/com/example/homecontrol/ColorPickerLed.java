@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.TextureView;
@@ -72,8 +73,9 @@ public class ColorPickerLed extends Fragment implements SeekBar.OnSeekBarChangeL
     AppCompatButton setColor, onOffButton;
     FirebaseDatabase database;
     DatabaseReference refRed, refGreen, refBlue, refBtn;
+    int red = 0, green = 0, blue = 0, status = 0;
 
-    int red = 0, green = 0, blue = 0;
+    ProgressLoading progressLoading;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,11 +92,13 @@ public class ColorPickerLed extends Fragment implements SeekBar.OnSeekBarChangeL
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_color_picker_led, container, false);
 
+        progressLoading = new ProgressLoading(getActivity());
+
         database = FirebaseDatabase.getInstance();
         refRed = database.getReference( path + "RGB/red");
         refGreen = database.getReference(path + "RGB/green");
         refBlue = database.getReference(path + "RGB/blue");
-        refBtn = database.getReference(path + "RGB/OnOff");
+        refBtn = database.getReference(path + "RGB/status");
 
         preColor = view.findViewById(R.id.pre_color);
         code = view.findViewById(R.id.rgbCode);
@@ -114,20 +118,49 @@ public class ColorPickerLed extends Fragment implements SeekBar.OnSeekBarChangeL
         setColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                red = Integer.parseInt(Ired.getText().toString());
-                green = Integer.parseInt(Igreen.getText().toString());
-                blue = Integer.parseInt(Iblue.getText().toString());
+                progressLoading.show();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!Ired.getText().toString().isEmpty() && !Igreen.getText().toString().isEmpty() && !Iblue.getText().toString().isEmpty()) {
+                            red = Integer.parseInt(Ired.getText().toString());
+                            green = Integer.parseInt(Igreen.getText().toString());
+                            blue = Integer.parseInt(Iblue.getText().toString());
+                        }
+                        refRed.setValue(red);
+                        refGreen.setValue(green);
+                        refBlue.setValue(blue);
 
-                refRed.setValue(red);
-                refGreen.setValue(green);
-                refBlue.setValue(blue);
+                        preColor.setBackgroundColor(Color.rgb(red,green,blue));
+                        code.setText(String.format("(%d,%d,%d)",red,green,blue));
 
-                preColor.setBackgroundColor(Color.rgb(red,green,blue));
-                code.setText(String.format("(%d,%d,%d)",red,green,blue));
+                        sRed.setProgress(red);
+                        sGreen.setProgress(green);
+                        sBlue.setProgress(blue);
+                        progressLoading.dismiss();
+                    }
+                },1000);
+            }
+        });
 
-                sRed.setProgress(red);
-                sGreen.setProgress(green);
-                sBlue.setProgress(blue);
+        refBtn.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int getTrig = snapshot.getValue(Integer.class);
+                if (getTrig == 1) {
+                    onOffButton.setBackgroundColor(Color.parseColor("red"));
+                    onOffButton.setText("Tắt");
+                    status = 0;
+                } else {
+                    onOffButton.setBackgroundColor(Color.parseColor("green"));
+                    onOffButton.setText("Mở");
+                    status = 1;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
@@ -135,21 +168,16 @@ public class ColorPickerLed extends Fragment implements SeekBar.OnSeekBarChangeL
         onOffButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                refBtn.addValueEventListener(new ValueEventListener() {
+                Handler handler = new Handler();
+                progressLoading.show();
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        int getTrig = snapshot.getValue(Integer.class);
-                        if(getTrig == 1){
-                            refBtn.setValue(0);
-                        }else{
-                            refBtn.setValue(1);
-                        }
+                    public void run() {
+                        refBtn.setValue(status);
+                        progressLoading.dismiss();
                     }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                },1000);
 
-                    }
-                });
             }
         });
 
@@ -157,11 +185,57 @@ public class ColorPickerLed extends Fragment implements SeekBar.OnSeekBarChangeL
         sGreen.setOnSeekBarChangeListener(this);
         sBlue.setOnSeekBarChangeListener(this);
 
+        SetColor();
+
         return view;
+    }
+
+    private void SetColor() {
+        refRed.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int gRed = snapshot.getValue(Integer.class);
+                sRed.setProgress(gRed);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        refGreen.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int gGreen = snapshot.getValue(Integer.class);
+                sGreen.setProgress(gGreen);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        refBlue.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int gBlue = snapshot.getValue(Integer.class);
+                sBlue.setProgress(gBlue);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+        Ired.setText("");
+        Igreen.setText("");
+        Iblue.setText("");
 
         switch (seekBar.getId()){
 
@@ -175,9 +249,6 @@ public class ColorPickerLed extends Fragment implements SeekBar.OnSeekBarChangeL
                 blue = i;
                 break;
         }
-        refRed.setValue(red);
-        refGreen.setValue(green);
-        refBlue.setValue(blue);
         preColor.setBackgroundColor(Color.rgb(red,green,blue));
         code.setText(String.format("(%d,%d,%d)",red,green,blue));
     }
