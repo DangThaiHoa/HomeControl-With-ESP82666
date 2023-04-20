@@ -19,6 +19,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -72,7 +74,7 @@ public class ColorPickerLed extends Fragment implements SeekBar.OnSeekBarChangeL
     SeekBar sRed, sGreen, sBlue;
     AppCompatButton setColor, onOffButton;
     FirebaseDatabase database;
-    DatabaseReference refRed, refGreen, refBlue, refBtn;
+    DatabaseReference refRed, refGreen, refBlue, refBtn, refRole1, refRole2, refEmail01, refEmail02;
     int red = 0, green = 0, blue = 0, status = 0;
 
     ProgressLoading progressLoading;
@@ -99,6 +101,11 @@ public class ColorPickerLed extends Fragment implements SeekBar.OnSeekBarChangeL
         refGreen = database.getReference(path + "RGB/green");
         refBlue = database.getReference(path + "RGB/blue");
         refBtn = database.getReference(path + "RGB/status");
+
+        refRole1 = database.getReference("HomeControl/ESP8266/Users/UID-02/role");
+        refRole2 = database.getReference("HomeControl/ESP8266/Users/UID-03/role");
+        refEmail01 = database.getReference("HomeControl/ESP8266/Users/UID-02/email");
+        refEmail02 = database.getReference("HomeControl/ESP8266/Users/UID-03/email");
 
         preColor = view.findViewById(R.id.pre_color);
         code = view.findViewById(R.id.rgbCode);
@@ -187,7 +194,83 @@ public class ColorPickerLed extends Fragment implements SeekBar.OnSeekBarChangeL
 
         SetColor();
 
+        Role();
+
         return view;
+    }
+
+    private void Role() {
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String email = user.getEmail();
+        refEmail01.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String gEmail = dataSnapshot.getValue(String.class);
+                if(email.equals(gEmail)){
+                    refRole1.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String gRole = snapshot.getValue(String.class);
+                            if(gRole.equals("Read")){
+                                Ired.setClickable(false);
+                                Igreen.setClickable(false);
+                                Iblue.setClickable(false);
+                                setColor.setClickable(false);
+                                onOffButton.setClickable(false);
+                                sRed.setClickable(false);
+                                sGreen.setClickable(false);
+                                sBlue.setClickable(false);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        refEmail02.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String gEmail = dataSnapshot.getValue(String.class);
+                if(email.equals(gEmail)){
+                    refRole2.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String gRole = snapshot.getValue(String.class);
+                            if(gRole.equals("Read")){
+                                Ired.setClickable(false);
+                                Igreen.setClickable(false);
+                                Iblue.setClickable(false);
+                                setColor.setClickable(false);
+                                onOffButton.setClickable(false);
+                                sRed.setClickable(false);
+                                sGreen.setClickable(false);
+                                sBlue.setClickable(false);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     private void SetColor() {

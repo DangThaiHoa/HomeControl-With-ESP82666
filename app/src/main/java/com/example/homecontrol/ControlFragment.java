@@ -64,13 +64,13 @@ public class ControlFragment extends Fragment {
     }
 
     String path = "HomeControl/ESP8266/DATA/";
-    Button OpenCloseRoof, led1, led2, led3, btnMode;
-    TextView roof,textLed1,textLed2,textLed3;
+    Button OpenCloseRoof, led1, led2, btnMode;
+    TextView roof,textLed1,textLed2;
     FirebaseDatabase database;
-    DatabaseReference refAngleServo, refTrigServo, refModeServo, refWaterSensor, refDate, refTime, refErrorDS1302, refLed1, refLed2, refLed3, refRole1, refRole2, refEmail01, refEmail02;
+    DatabaseReference refAngleServo, refModeServo, refWaterSensor, refDate, refTime, refErrorDS1302, refLed1, refLed2, refRole1, refRole2, refEmail01, refEmail02;
     CardView cardServo;
-    int AngleCur, sLed1, sLed2, sLed3;
-    ImageView weaControl, imageLed1, imageLed2, imageLed3, IconMode, IconRoof;
+    int AngleCur, sLed1, sLed2;
+    ImageView weaControl, imageLed1, imageLed2, IconMode, IconRoof;
     ProgressLoading progressLoading;
 
     @Override
@@ -98,21 +98,17 @@ public class ControlFragment extends Fragment {
 
         textLed1 = view.findViewById(R.id.textLed1);
         textLed2 = view.findViewById(R.id.textLed2);
-        textLed3 = view.findViewById(R.id.textLed3);
 
         imageLed1 = view.findViewById(R.id.imageLed1);
         imageLed2 = view.findViewById(R.id.imageLed2);
-        imageLed3 = view.findViewById(R.id.imageLed3);
 
         led1 = view.findViewById(R.id.btnLed1);
         led2 = view.findViewById(R.id.btnLed2);
-        led3 = view.findViewById(R.id.btnLed3);
 
         cardServo = view.findViewById(R.id.cardServo);
 
         database = FirebaseDatabase.getInstance();
         refAngleServo = database.getReference( path + "Servo/roof");
-        refTrigServo = database.getReference(path + "Servo/trigger");
         refModeServo = database.getReference(path + "Servo/mode");
 
         refWaterSensor = database.getReference(path + "WATERSENSOR/waterdata");
@@ -123,7 +119,6 @@ public class ControlFragment extends Fragment {
 
         refLed1 = database.getReference(path + "LED/led1");
         refLed2 = database.getReference(path + "LED/led2");
-        refLed3 = database.getReference(path + "LED/led3");
 
         refRole1 = database.getReference("HomeControl/ESP8266/Users/UID-02/role");
         refRole2 = database.getReference("HomeControl/ESP8266/Users/UID-03/role");
@@ -177,7 +172,7 @@ public class ControlFragment extends Fragment {
                                         @Override
                                         public void onClick(View view) {
                                             refAngleServo.setValue(AngleCur);
-                                            refTrigServo.setValue("Trig");
+//                                            refTrigServo.setValue("Trig");
                                             refModeServo.setValue("Manual");
                                             alertDialog.dismiss();
                                             progressLoading.show();
@@ -186,7 +181,6 @@ public class ControlFragment extends Fragment {
                                                 @Override
                                                 public void run() {
                                                     progressLoading.dismiss();
-                                                    refTrigServo.setValue("null");
                                                 }
                                             }, 3000);
                                         }
@@ -201,7 +195,6 @@ public class ControlFragment extends Fragment {
                                     alertDialog.show();
                                 } else {
                                     refAngleServo.setValue(AngleCur);
-                                    refTrigServo.setValue("Trig");
                                     refModeServo.setValue("Manual");
                                     progressLoading.show();
                                     Handler handler = new Handler();
@@ -209,7 +202,6 @@ public class ControlFragment extends Fragment {
                                         @Override
                                         public void run() {
                                             progressLoading.dismiss();
-                                            refTrigServo.setValue("null");
                                         }
                                     }, 3000);
                                 }
@@ -264,7 +256,6 @@ public class ControlFragment extends Fragment {
                                 OpenCloseRoof.setClickable(false);
                                 led1.setClickable(false);
                                 led2.setClickable(false);
-                                led3.setClickable(false);
                                 btnMode.setClickable(false);
                             }
                         }
@@ -295,7 +286,6 @@ public class ControlFragment extends Fragment {
                                 OpenCloseRoof.setClickable(false);
                                 led1.setClickable(false);
                                 led2.setClickable(false);
-                                led3.setClickable(false);
                                 btnMode.setClickable(false);
                             }
                         }
@@ -326,13 +316,9 @@ public class ControlFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshotMode) {
                         String mode = dataSnapshotMode.getValue(String.class);
                         if (getWaterData > 100 && mode.equals("Auto")) {
-                            refTrigServo.setValue("Trig");
                             refAngleServo.setValue(0);
-                            refTrigServo.setValue("null");
                         }else if(getWaterData < 100 && mode.equals("Auto")){
-                            refTrigServo.setValue("Trig");
                             refAngleServo.setValue(180);
-                            refTrigServo.setValue("null");
                         }
                         if(mode.equals("Auto")){
                             btnMode.setText("Tự Động");
@@ -365,13 +351,13 @@ public class ControlFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int statusLed1 = dataSnapshot.getValue(Integer.class);
-                if(statusLed1 == 1){
+                if (statusLed1 == 1) {
                     textLed1.setText("Bật");
                     led1.setText("Tắt");
                     led1.setBackgroundColor(Color.parseColor("red"));
                     imageLed1.setImageResource(R.drawable.lamp_on);
                     sLed1 = 0;
-                }else{
+                } else {
                     textLed1.setText("Tắt");
                     led1.setText("Bật");
                     led1.setBackgroundColor(Color.parseColor("green"));
@@ -391,13 +377,13 @@ public class ControlFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int statusLed2 = dataSnapshot.getValue(Integer.class);
-                if(statusLed2 == 1){
+                if (statusLed2 == 1) {
                     textLed2.setText("Bật");
                     led2.setText("Tắt");
                     led2.setBackgroundColor(Color.parseColor("red"));
                     imageLed2.setImageResource(R.drawable.lamp_on);
                     sLed2 = 0;
-                }else{
+                } else {
                     textLed2.setText("Tắt");
                     led2.setText("Bật");
                     led2.setBackgroundColor(Color.parseColor("green"));
@@ -413,44 +399,18 @@ public class ControlFragment extends Fragment {
             }
         });
 
-        refLed3.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int statusLed3 = dataSnapshot.getValue(Integer.class);
-                if(statusLed3 == 1){
-                    textLed3.setText("Bật");
-                    led3.setText("Tắt");
-                    led3.setBackgroundColor(Color.parseColor("red"));
-                    imageLed3.setImageResource(R.drawable.lamp_on);
-                    sLed3 = 0;
-                }else{
-                    textLed3.setText("Tắt");
-                    led3.setText("Bật");
-                    led3.setBackgroundColor(Color.parseColor("green"));
-                    imageLed3.setImageResource(R.drawable.lamp_off);
-                    sLed3 = 1;
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
         led1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 refLed1.setValue(sLed1);
                 progressLoading.show();
-                Handler handler =  new Handler();
+                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         progressLoading.dismiss();
                     }
-                },1000);
+                }, 1000);
             }
         });
 
@@ -459,31 +419,15 @@ public class ControlFragment extends Fragment {
             public void onClick(View view) {
                 refLed2.setValue(sLed2);
                 progressLoading.show();
-                Handler handler =  new Handler();
+                Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         progressLoading.dismiss();
                     }
-                },1000);
+                }, 1000);
             }
         });
-
-        led3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                refLed3.setValue(sLed3);
-                progressLoading.show();
-                Handler handler =  new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressLoading.dismiss();
-                    }
-                },1000);
-            }
-        });
-
     }
 
     private void ReadDateTime(){
