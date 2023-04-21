@@ -1,18 +1,12 @@
 package com.example.homecontrol;
 
-import static android.net.wifi.WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiManager;
-import android.net.wifi.WifiNetworkSuggestion;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -29,8 +23,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 public class SelectBoardConfig extends AppCompatActivity {
 
@@ -67,6 +59,7 @@ public class SelectBoardConfig extends AppCompatActivity {
         refReset = database.getReference( "HomeControl/ESP8266/Reset");
         refConnect = database.getReference( "HomeControl/ESP8266/Connect");
         FirebaseUser userUID = FirebaseAuth.getInstance().getCurrentUser();
+        assert userUID != null;
         uid = userUID.getUid();
 
         refUidESP.addValueEventListener(new ValueEventListener() {
@@ -94,51 +87,34 @@ public class SelectBoardConfig extends AppCompatActivity {
             }
         });
 
-        esp_config.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://192.168.4.1?UID=" + uid));
-                startActivity(intent);
-            }
+        esp_config.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://192.168.4.1?UID=" + uid));
+            startActivity(intent);
         });
 
-        reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(SelectBoardConfig.this);
-                builder.setCancelable(false);
-                View viewDialog = LayoutInflater.from(SelectBoardConfig.this).inflate(R.layout.alert_override_servo, findViewById(R.id.alert_servo));
-                builder.setView(viewDialog);
-                AlertDialog alertDialog = builder.create();
-                TextView textView = viewDialog.findViewById(R.id.textDialogServo);
-                textView.setText("Bạn có chắc chắn muốn đặt lại thiết bị!!?");
-                viewDialog.findViewById(R.id.confirmBtn).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        alertDialog.dismiss();
-                        progressLoading.show();
-                        refReset.setValue(1);
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressLoading.dismiss();
-                                refReset.setValue(0);
-                                Intent intent = new Intent(SelectBoardConfig.this, MainActivity.class);
-                                startActivity(intent);
-                            }
-                        }, 10000);
-                    }
-                });
+        reset.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(SelectBoardConfig.this);
+            builder.setCancelable(false);
+            View viewDialog = LayoutInflater.from(SelectBoardConfig.this).inflate(R.layout.alert_override_servo, findViewById(R.id.alert_servo));
+            builder.setView(viewDialog);
+            AlertDialog alertDialog = builder.create();
+            TextView textView = viewDialog.findViewById(R.id.textDialogServo);
+            textView.setText(R.string.warning_reset_device);
+            viewDialog.findViewById(R.id.confirmBtn).setOnClickListener(view12 -> {
+                alertDialog.dismiss();
+                progressLoading.show();
+                refReset.setValue(1);
+                Handler handler = new Handler();
+                handler.postDelayed(() -> {
+                    progressLoading.dismiss();
+                    refReset.setValue(0);
+                    Intent intent = new Intent(SelectBoardConfig.this, MainActivity.class);
+                    startActivity(intent);
+                }, 10000);
+            });
 
-                viewDialog.findViewById(R.id.cancelBtn).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        alertDialog.dismiss();
-                    }
-                });
-                alertDialog.show();
-            }
+            viewDialog.findViewById(R.id.cancelBtn).setOnClickListener(view1 -> alertDialog.dismiss());
+            alertDialog.show();
         });
 
         backBtn();
@@ -150,20 +126,12 @@ public class SelectBoardConfig extends AppCompatActivity {
 
     private void DeleteBoard() {
 
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                refUidESP.setValue("null");
-                refEmail.setValue("null");
-                refReset.setValue(1);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        refReset.setValue(0);
-                    }
-                },2000);
-            }
+        delete.setOnClickListener(view -> {
+            refUidESP.setValue("null");
+            refEmail.setValue("null");
+            refReset.setValue(1);
+            Handler handler = new Handler();
+            handler.postDelayed(() -> refReset.setValue(0),2000);
         });
 
     }
@@ -172,42 +140,33 @@ public class SelectBoardConfig extends AppCompatActivity {
 
         refConnect.setValue("null");
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        handler.postDelayed(() -> refConnect.addValueEventListener(new ValueEventListener() {
             @Override
-            public void run() {
-                refConnect.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String gCon = dataSnapshot.getValue(String.class);
-                        if(gCon.equals("null")){
-                            dis.setVisibility(View.VISIBLE);
-                            check.setImageResource(R.drawable.baseline_close_24);
-                            Rcard.setVisibility(View.INVISIBLE);
-                            delete.setVisibility(View.INVISIBLE);
-                        }else{
-                            dis.setVisibility(View.INVISIBLE);
-                            check.setImageResource(R.drawable.baseline_check_24);
-                            Rcard.setVisibility(View.VISIBLE);
-                            delete.setVisibility(View.VISIBLE);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String gCon = dataSnapshot.getValue(String.class);
+                assert gCon != null;
+                if(gCon.equals("null")){
+                    dis.setVisibility(View.VISIBLE);
+                    check.setImageResource(R.drawable.baseline_close_24);
+                    Rcard.setVisibility(View.INVISIBLE);
+                    delete.setVisibility(View.INVISIBLE);
+                }else{
+                    dis.setVisibility(View.INVISIBLE);
+                    check.setImageResource(R.drawable.baseline_check_24);
+                    Rcard.setVisibility(View.VISIBLE);
+                    delete.setVisibility(View.VISIBLE);
+                }
             }
-        },5000);
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        }),5000);
 
     }
 
     private void backBtn() {
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SelectBoardConfig.super.onBackPressed();
-            }
-        });
+        backBtn.setOnClickListener(view -> SelectBoardConfig.super.onBackPressed());
     }
 }

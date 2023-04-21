@@ -1,7 +1,6 @@
 package com.example.homecontrol;
 
 import android.graphics.Color;
-import android.graphics.drawable.Icon;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -87,7 +86,7 @@ public class ControlFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_control, container, false);
 
-        progressLoading = new ProgressLoading(getActivity());
+        progressLoading = new ProgressLoading(requireActivity());
 
         OpenCloseRoof = view.findViewById(R.id.btnOpenCloseRoof);
         roof = view.findViewById(R.id.textRoof);
@@ -129,17 +128,18 @@ public class ControlFragment extends Fragment {
         refAngleServo.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int Angle = dataSnapshot.getValue(Integer.class);
+                Integer Angle = dataSnapshot.getValue(Integer.class);
+                assert Angle != null;
                 if(Angle == 180){
-                    roof.setText("Mở");
-                    OpenCloseRoof.setText("Đóng");
+                    roof.setText(R.string.open);
+                    OpenCloseRoof.setText(R.string.close);
                     IconRoof.setImageResource(R.drawable.openroof);
                     OpenCloseRoof.setBackgroundColor(Color.parseColor("red"));
                     cardServo.setCardBackgroundColor(Color.parseColor("green"));
                     AngleCur = 0;
                 }else{
-                    roof.setText("Đóng");
-                    OpenCloseRoof.setText("Mở");
+                    roof.setText(R.string.close);
+                    OpenCloseRoof.setText(R.string.open);
                     IconRoof.setImageResource(R.drawable.closeroof);
                     OpenCloseRoof.setBackgroundColor(Color.parseColor("green"));
                     cardServo.setCardBackgroundColor(Color.parseColor("red"));
@@ -156,55 +156,35 @@ public class ControlFragment extends Fragment {
                 refWaterSensor.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        int status = dataSnapshot.getValue(Integer.class);
-                        OpenCloseRoof.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                if (status > 100 && btnMode.getText().toString().equals("Tự Động")) {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                    builder.setCancelable(false);
-                                    View viewDialog = LayoutInflater.from(getActivity()).inflate(R.layout.alert_override_servo, view.findViewById(R.id.alert_servo));
-                                    builder.setView(viewDialog);
-                                    AlertDialog alertDialog = builder.create();
-                                    TextView textView = viewDialog.findViewById(R.id.textDialogServo);
-                                    textView.setText("Bạn có chắc chắn muốn mở Cửa, Đang có mưa!!?\n Nếu bạn muốn cửa tự động đóng khi có mưa, hãy chuyển chế độ bằng cách nhấn vào chữ thủ công");
-                                    viewDialog.findViewById(R.id.confirmBtn).setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            refAngleServo.setValue(AngleCur);
-//                                            refTrigServo.setValue("Trig");
-                                            refModeServo.setValue("Manual");
-                                            alertDialog.dismiss();
-                                            progressLoading.show();
-                                            Handler handler = new Handler();
-                                            handler.postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    progressLoading.dismiss();
-                                                }
-                                            }, 3000);
-                                        }
-                                    });
-
-                                    viewDialog.findViewById(R.id.cancelBtn).setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            alertDialog.dismiss();
-                                        }
-                                    });
-                                    alertDialog.show();
-                                } else {
+                        Integer status = dataSnapshot.getValue(Integer.class);
+                        assert status != null;
+                        OpenCloseRoof.setOnClickListener(view14 -> {
+                            if (status > 100 && btnMode.getText().toString().equals("Tự Động")) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                                builder.setCancelable(false);
+                                View viewDialog = LayoutInflater.from(getActivity()).inflate(R.layout.alert_override_servo, view14.findViewById(R.id.alert_servo));
+                                builder.setView(viewDialog);
+                                AlertDialog alertDialog = builder.create();
+                                TextView textView = viewDialog.findViewById(R.id.textDialogServo);
+                                textView.setText("Bạn có chắc chắn muốn mở Cửa, Đang có mưa!!?\n Nếu bạn muốn cửa tự động đóng khi có mưa, hãy chuyển chế độ bằng cách nhấn vào chữ thủ công");
+                                viewDialog.findViewById(R.id.confirmBtn).setOnClickListener(view13 -> {
                                     refAngleServo.setValue(AngleCur);
+//                                            refTrigServo.setValue("Trig");
                                     refModeServo.setValue("Manual");
+                                    alertDialog.dismiss();
                                     progressLoading.show();
                                     Handler handler = new Handler();
-                                    handler.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            progressLoading.dismiss();
-                                        }
-                                    }, 3000);
-                                }
+                                    handler.postDelayed(() -> progressLoading.dismiss(), 3000);
+                                });
+
+                                viewDialog.findViewById(R.id.cancelBtn).setOnClickListener(view12 -> alertDialog.dismiss());
+                                alertDialog.show();
+                            } else {
+                                refAngleServo.setValue(AngleCur);
+                                refModeServo.setValue("Manual");
+                                progressLoading.show();
+                                Handler handler = new Handler();
+                                handler.postDelayed(() -> progressLoading.dismiss(), 3000);
                             }
                         });
                     }
@@ -215,14 +195,11 @@ public class ControlFragment extends Fragment {
                     }
                 });
 
-        btnMode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(btnMode.getText().equals("Tự Động")){
-                    refModeServo.setValue("Manual");
-                }else{
-                    refModeServo.setValue("Auto");
-                }
+        btnMode.setOnClickListener(view1 -> {
+            if(btnMode.getText().equals("Tự Động")){
+                refModeServo.setValue("Manual");
+            }else{
+                refModeServo.setValue("Auto");
             }
         });
 
@@ -242,16 +219,19 @@ public class ControlFragment extends Fragment {
     private void Role() {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
         String email = user.getEmail();
         refEmail01.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String gEmail = dataSnapshot.getValue(String.class);
+                assert email != null;
                 if(email.equals(gEmail)){
                     refRole1.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             String gRole = snapshot.getValue(String.class);
+                            assert gRole != null;
                             if(gRole.equals("Read")){
                                 OpenCloseRoof.setClickable(false);
                                 led1.setClickable(false);
@@ -277,11 +257,13 @@ public class ControlFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String gEmail = dataSnapshot.getValue(String.class);
+                assert email != null;
                 if(email.equals(gEmail)){
                     refRole2.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             String gRole = snapshot.getValue(String.class);
+                            assert gRole != null;
                             if(gRole.equals("Read")){
                                 OpenCloseRoof.setClickable(false);
                                 led1.setClickable(false);
@@ -310,22 +292,24 @@ public class ControlFragment extends Fragment {
         refWaterSensor.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int getWaterData = dataSnapshot.getValue(Integer.class);
+                Integer getWaterData = dataSnapshot.getValue(Integer.class);
+                assert getWaterData != null;
                 refModeServo.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshotMode) {
                         String mode = dataSnapshotMode.getValue(String.class);
+                        assert mode != null;
                         if (getWaterData > 100 && mode.equals("Auto")) {
                             refAngleServo.setValue(0);
                         }else if(getWaterData < 100 && mode.equals("Auto")){
                             refAngleServo.setValue(180);
                         }
                         if(mode.equals("Auto")){
-                            btnMode.setText("Tự Động");
+                            btnMode.setText(R.string.auto);
                             btnMode.setBackgroundColor(Color.parseColor("green"));
                             IconMode.setImageResource(R.drawable.auto);
                         }else{
-                            btnMode.setText("Thủ Công");
+                            btnMode.setText(R.string.manual);
                             btnMode.setBackgroundColor(Color.parseColor("red"));
                             IconMode.setImageResource(R.drawable.manual);
                         }
@@ -350,7 +334,8 @@ public class ControlFragment extends Fragment {
         refLed1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int statusLed1 = dataSnapshot.getValue(Integer.class);
+                Integer statusLed1 = dataSnapshot.getValue(Integer.class);
+                assert statusLed1 != null;
                 if (statusLed1 == 1) {
                     textLed1.setText("Bật");
                     led1.setText("Tắt");
@@ -376,7 +361,8 @@ public class ControlFragment extends Fragment {
         refLed2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int statusLed2 = dataSnapshot.getValue(Integer.class);
+                Integer statusLed2 = dataSnapshot.getValue(Integer.class);
+                assert statusLed2 != null;
                 if (statusLed2 == 1) {
                     textLed2.setText("Bật");
                     led2.setText("Tắt");
@@ -399,34 +385,18 @@ public class ControlFragment extends Fragment {
             }
         });
 
-        led1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                refLed1.setValue(sLed1);
-                progressLoading.show();
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressLoading.dismiss();
-                    }
-                }, 1000);
-            }
+        led1.setOnClickListener(view -> {
+            refLed1.setValue(sLed1);
+            progressLoading.show();
+            Handler handler = new Handler();
+            handler.postDelayed(() -> progressLoading.dismiss(), 1000);
         });
 
-        led2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                refLed2.setValue(sLed2);
-                progressLoading.show();
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressLoading.dismiss();
-                    }
-                }, 1000);
-            }
+        led2.setOnClickListener(view -> {
+            refLed2.setValue(sLed2);
+            progressLoading.show();
+            Handler handler = new Handler();
+            handler.postDelayed(() -> progressLoading.dismiss(), 1000);
         });
     }
 
@@ -436,8 +406,8 @@ public class ControlFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String getError = dataSnapshot.getValue(String.class);
-                if(getError.equals("Read/Connect/Battery")){
-                }else{
+                assert getError != null;
+                if(getError.equals("non")){
                     refTime.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -452,7 +422,6 @@ public class ControlFragment extends Fragment {
                         }
                     });
                 }
-
             }
 
             @Override
@@ -466,14 +435,14 @@ public class ControlFragment extends Fragment {
         refWaterSensor.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int getWaterData = dataSnapshot.getValue(Integer.class);
-                String string = time;
-                String[] parts = string.split(":");
+                Integer getWaterData = dataSnapshot.getValue(Integer.class);
+                assert getWaterData != null;
+                String[] parts = time.split(":");
                 String hour = parts[0];
                 if(Integer.parseInt(hour) >= 6 && Integer.parseInt(hour) < 18){
                     if(getWaterData <= 100){
                         weaControl.setImageResource(R.drawable.sun);
-                    }else if (getWaterData >= 100 && getWaterData <= 500){
+                    }else if (getWaterData <= 500){
                         weaControl.setImageResource(R.drawable.raining);
                     }else{
                         weaControl.setImageResource(R.drawable.storm);
@@ -481,7 +450,7 @@ public class ControlFragment extends Fragment {
                 }else{
                     if(getWaterData <= 100){
                         weaControl.setImageResource(R.drawable.moon);
-                    }else if (getWaterData >= 100    && getWaterData <= 500){
+                    }else if (getWaterData <= 500){
                         weaControl.setImageResource(R.drawable.raining);
                     }else{
                         weaControl.setImageResource(R.drawable.storm);

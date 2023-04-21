@@ -58,12 +58,7 @@ public class LineChartTemp extends AppCompatActivity {
 
     private void backBtn() {
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LineChartTemp.super.onBackPressed();
-            }
-        });
+        backBtn.setOnClickListener(view -> LineChartTemp.super.onBackPressed());
 
     }
 
@@ -73,6 +68,7 @@ public class LineChartTemp extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String getError = snapshot.getValue(String.class);
+                assert getError != null;
                 if(getError.equals("Read/Connect")){
                     errorDHT.setVisibility(View.VISIBLE);
                 }else{
@@ -81,10 +77,14 @@ public class LineChartTemp extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.hasChildren()){
-                                ArrayList<Entry> tempArrayList = new ArrayList<Entry>();
+                                ArrayList<Entry> tempArrayList = new ArrayList<>();
                                 for(DataSnapshot mySP : snapshot.getChildren()){
-                                    int x = mySP.child("pos").getValue(Integer.class);
-                                    float y = mySP.child("data").getValue(Float.class);
+                                    Integer pos = mySP.child("pos").getValue(Integer.class);
+                                    Integer data = mySP.child("data").getValue(Integer.class);
+                                    assert pos != null;
+                                    assert data != null;
+                                    int x = pos;
+                                    float y = data;
                                     tempArrayList.add(new Entry(x,y));
                                 }
                                 showChart(tempArrayList);

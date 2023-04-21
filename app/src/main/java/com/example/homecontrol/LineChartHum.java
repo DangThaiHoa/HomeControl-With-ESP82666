@@ -58,12 +58,7 @@ public class LineChartHum extends AppCompatActivity {
 
     private void backBtn() {
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LineChartHum.super.onBackPressed();
-            }
-        });
+        backBtn.setOnClickListener(view -> LineChartHum.super.onBackPressed());
 
     }
 
@@ -73,6 +68,7 @@ public class LineChartHum extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String getError = snapshot.getValue(String.class);
+                assert getError != null;
                 if(getError.equals("Read/Connect")){
                     errorDHT.setVisibility(View.VISIBLE);
                 }else{
@@ -80,10 +76,14 @@ public class LineChartHum extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.hasChildren()){
-                                ArrayList<Entry> humArrayList = new ArrayList<Entry>();
+                                ArrayList<Entry> humArrayList = new ArrayList<>();
                                 for(DataSnapshot mySP : snapshot.getChildren()){
-                                    int x = mySP.child("pos").getValue(Integer.class);
-                                    float y = mySP.child("data").getValue(Float.class);
+                                    Integer pos = mySP.child("pos").getValue(Integer.class);
+                                    Integer data = mySP.child("data").getValue(Integer.class);
+                                    assert pos != null;
+                                    assert data != null;
+                                    int x = pos;
+                                    float y = data;
                                     humArrayList.add(new Entry(x,y));
                                 }
                                 showChart(humArrayList);

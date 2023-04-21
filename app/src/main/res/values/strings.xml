@@ -5,5 +5,23 @@
     <string name="app_version">Release 1.0</string>
     <string name="app_create">Phát triển bởi Đặng Thái Hòa và Trương Hoàng Phúc</string>
     <string name="app_info">390 Hoàng Văn Thụ, Phường 4, Tân Bình, Thành phố Hồ Chí Minh</string>
-    <string name="app_copyRight">2023 - 2023</string>
+    <string name="app_copyRight">2023 – 2023</string>
+    <string name="auto">Tự Động</string>
+    <string name="manual">Thủ Công</string>
+    <string name="open">Mở</string>
+    <string name="close">Đóng</string>
+    <string name="warning_reset_device">Bạn có chắc chắn muốn đặt lại thiết bị!!?</string>
+    <string name="share_email_0">Những Email Đã Chia Sẻ (0/2)</string>
+    <string name="share_email_1">Những Email Đã Chia Sẻ (1/2)</string>
+    <string name="share_email_2">Những Email Đã Chia Sẻ (2/2)</string>
+    <string name="default_label_share_email_0">share1@gmail.com</string>
+    <string name="default_label_share_email_1">share2@gmail.com</string>
+    <string name="success_sign_up">Đăng Ký Thành Công</string>
+    <string name="is_null">null</string>
+    <string name="symbol_celsius">℃</string>
+    <string name="symbol_humidity">%</string>
+    <string name="small_rain">Mưa Nhỏ</string>
+    <string name="heavy_rain">Mưa Lớn</string>
+    <string name="sun">Nắng</string>
+    <string name="night">Đêm</string>
 </resources>

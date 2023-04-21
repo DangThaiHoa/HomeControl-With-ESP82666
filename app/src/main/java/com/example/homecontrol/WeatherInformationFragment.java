@@ -113,20 +113,14 @@ public class WeatherInformationFragment extends Fragment {
         refTime = database.getReference(path + "DS1302/time");
         refErrorDS1302 = database.getReference(path + "DS1302/error");
 
-        btnChartTemp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), LineChartTemp.class);
-                startActivity(intent);
-            }
+        btnChartTemp.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity(), LineChartTemp.class);
+            startActivity(intent);
         });
 
-        btnChartHum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), LineChartHum.class);
-                startActivity(intent);
-            }
+        btnChartHum.setOnClickListener(view12 -> {
+            Intent intent = new Intent(getActivity(), LineChartHum.class);
+            startActivity(intent);
         });
 
         ReadDHT11();
@@ -145,10 +139,11 @@ public class WeatherInformationFragment extends Fragment {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 String getError = dataSnapshot.getValue(String.class);
+                assert getError != null;
                 if(getError.equals("Read/Connect")){
                     errorDHT.setVisibility(View.VISIBLE);
-                    temp.setText("Null");
-                    hum.setText("Null");
+                    temp.setText(R.string.is_null);
+                    hum.setText(R.string.is_null);
                     tempPro.setProgress(0);
                     humPro.setProgress(0);
                 }else{
@@ -159,7 +154,9 @@ public class WeatherInformationFragment extends Fragment {
                             // This method is called once with the initial value and again
                             // whenever data at this location is updated.
                             Float getTemp = dataSnapshot.getValue(Float.class);
-                            temp.setText(getTemp.toString() + "\u2103");
+                            assert getTemp != null;
+                            String Temperature = getTemp.toString() + R.string.symbol_celsius;
+                            temp.setText(Temperature);
                             tempPro.setProgress(Math.round(getTemp));
                             if(getTemp < 20){
                                 tempCard.setCardBackgroundColor(Color.parseColor("blue"));
@@ -181,7 +178,9 @@ public class WeatherInformationFragment extends Fragment {
                             // This method is called once with the initial value and again
                             // whenever data at this location is updated.
                             Float getHum = dataSnapshot.getValue(Float.class);
-                            hum.setText(getHum.toString() + "%");
+                            assert getHum != null;
+                            String Humanity = getHum.toString() + R.string.symbol_humidity;
+                            hum.setText(Humanity);
                             humPro.setProgress(Math.round(getHum));
                             if(getHum < 40){
                                 humCard.setCardBackgroundColor(Color.parseColor("blue"));
@@ -210,10 +209,11 @@ public class WeatherInformationFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String getError = dataSnapshot.getValue(String.class);
+                assert getError != null;
                 if(getError.equals("Read/Connect/Battery")){
                     errorWea.setVisibility(View.VISIBLE);
-                    date.setText("Null");
-                    time.setText("Null");
+                    date.setText(R.string.is_null);
+                    time.setText(R.string.is_null);
                 }else{
                     errorWea.setVisibility(View.INVISIBLE);
                     refDate.addValueEventListener(new ValueEventListener() {
@@ -258,35 +258,35 @@ public class WeatherInformationFragment extends Fragment {
         refWaterSensor.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int getWaterData = dataSnapshot.getValue(Integer.class);
-                String string = time;
-                String[] parts = string.split(":");
+                Integer getWaterData = dataSnapshot.getValue(Integer.class);
+                assert getWaterData != null;
+                String[] parts = time.split(":");
                 String hour = parts[0];
                 if (Integer.parseInt(hour) >= 6 && Integer.parseInt(hour) < 18) {
                     if (getWaterData <= 100) {
-                        weather.setText("Nắng");
+                        weather.setText(R.string.sun);
                         weatherImage.setImageResource(R.drawable.sun);
                         weaCard.setCardBackgroundColor(Color.parseColor("yellow"));
-                    } else if (getWaterData >= 100 && getWaterData <= 500) {
-                        weather.setText("Mưa Nhỏ");
+                    } else if (getWaterData <= 500) {
+                        weather.setText(R.string.small_rain);
                         weatherImage.setImageResource(R.drawable.raining);
                         weaCard.setCardBackgroundColor(Color.parseColor("blue"));
                     } else {
-                        weather.setText("Mưa Lớn");
+                        weather.setText(R.string.heavy_rain);
                         weatherImage.setImageResource(R.drawable.storm);
                         weaCard.setCardBackgroundColor(Color.parseColor("black"));
                     }
                 } else {
                     if (getWaterData <= 100) {
-                        weather.setText("Đêm");
+                        weather.setText(R.string.night);
                         weatherImage.setImageResource(R.drawable.moon);
                         weaCard.setCardBackgroundColor(Color.parseColor("black"));
-                    } else if (getWaterData >= 100 && getWaterData <= 500) {
-                        weather.setText("Mưa Nhỏ");
+                    } else if (getWaterData <= 500) {
+                        weather.setText(R.string.small_rain);
                         weatherImage.setImageResource(R.drawable.raining);
                         weaCard.setCardBackgroundColor(Color.parseColor("blue"));
                     } else {
-                        weather.setText("Mưa Lớn");
+                        weather.setText(R.string.heavy_rain);
                         weatherImage.setImageResource(R.drawable.storm);
                         weaCard.setCardBackgroundColor(Color.parseColor("black"));
                     }

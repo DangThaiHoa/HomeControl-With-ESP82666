@@ -1,7 +1,6 @@
 package com.example.homecontrol;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,12 +21,7 @@ public class AppInformation extends AppCompatActivity {
 
     private void backBtn() {
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AppInformation.super.onBackPressed();
-            }
-        });
+        backBtn.setOnClickListener(view -> AppInformation.super.onBackPressed());
 
     }
 }

@@ -1,23 +1,21 @@
 package com.example.homecontrol;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
 
 public class ChangePassword extends AppCompatActivity {
 
@@ -46,9 +44,9 @@ public class ChangePassword extends AppCompatActivity {
 
     public void CheckPassword() {
 
-        String gNewPassword = ENewPassword.getText().toString();
-        String gRePassword = EConfirmPassword.getText().toString();
-        String gOldPassword = EOldPassword.getText().toString();
+        String gNewPassword = Objects.requireNonNull(ENewPassword.getText()).toString();
+        String gRePassword = Objects.requireNonNull(EConfirmPassword.getText()).toString();
+        String gOldPassword = Objects.requireNonNull(EOldPassword.getText()).toString();
 
         if (gNewPassword.isEmpty() || gRePassword.isEmpty()) {
 
@@ -61,38 +59,29 @@ public class ChangePassword extends AppCompatActivity {
                 if (gNewPassword.equals(gRePassword)) {
 
                     FirebaseUser userUID = FirebaseAuth.getInstance().getCurrentUser();
+                    assert userUID != null;
                     String email = userUID.getEmail();
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    AuthCredential credential = EmailAuthProvider
-                            .getCredential(email, gOldPassword);
-                    user.reauthenticate(credential)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                            String newPassword = gNewPassword;
-                                            progressLoading.show();
-                                            user.updatePassword(newPassword)
-                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            if (task.isSuccessful()) {
-                                                                progressLoading.dismiss();
-                                                                Toast.makeText(ChangePassword.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
-                                                                FirebaseAuth.getInstance().signOut();
-                                                                Intent intent = new Intent(ChangePassword.this, Login.class);
-                                                                startActivity(intent);
-                                                                finishAffinity();
-                                                            }
-                                                        }
-                                                    });
-                                        }
-                                    }, 2000);
-                                }
-                            });
+                    if (email != null) {
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        AuthCredential credential = EmailAuthProvider
+                                .getCredential(email, gOldPassword);
+                        user.reauthenticate(credential)
+                                .addOnCompleteListener(task -> new Handler().postDelayed(() -> {
+                                    FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
+                                    progressLoading.show();
+                                    user1.updatePassword(gNewPassword)
+                                            .addOnCompleteListener(task1 -> {
+                                                if (task1.isSuccessful()) {
+                                                    progressLoading.dismiss();
+                                                    Toast.makeText(ChangePassword.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                                                    FirebaseAuth.getInstance().signOut();
+                                                    Intent intent = new Intent(ChangePassword.this, Login.class);
+                                                    startActivity(intent);
+                                                    finishAffinity();
+                                                }
+                                            });
+                                }, 2000));
+                    }
                 } else {
 
                     Toast.makeText(this, "Vui Lòng Nhập Hai Mật Khẩu Giống Nhau", Toast.LENGTH_SHORT).show();
@@ -109,22 +98,12 @@ public class ChangePassword extends AppCompatActivity {
 
     private void submitBtn() {
 
-        submitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CheckPassword();
-                }
-        });
+        submitBtn.setOnClickListener(view -> CheckPassword());
 
     }
 
     private void btnBack() {
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ChangePassword.super.onBackPressed();
-            }
-        });
+        btnBack.setOnClickListener(view -> ChangePassword.super.onBackPressed());
     }
 }

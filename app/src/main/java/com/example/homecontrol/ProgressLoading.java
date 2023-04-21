@@ -2,7 +2,6 @@ package com.example.homecontrol;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -15,7 +14,7 @@ public class ProgressLoading extends Dialog {
         setTitle(null);
         setCancelable(false);
         setOnCancelListener(null);
-        View view = LayoutInflater.from(context).inflate(R.layout.custom_loading_dialog,null);
+        View view = View.inflate(context, R.layout.custom_loading_dialog, null);
         setContentView(view);
 
     }

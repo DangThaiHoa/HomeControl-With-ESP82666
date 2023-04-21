@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -21,7 +20,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.core.view.Change;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -96,6 +94,7 @@ public class UserFragment extends Fragment {
         database = FirebaseDatabase.getInstance();
 
         FirebaseUser userUID = FirebaseAuth.getInstance().getCurrentUser();
+        assert userUID != null;
         uid = userUID.getUid();
 
         refEmail = database.getReference(path + "Users/" + uid + "/email");
@@ -121,24 +120,18 @@ public class UserFragment extends Fragment {
 
     private void infoCard() {
 
-        infoCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AppInformation.class);
-                startActivity(intent);
-            }
+        infoCard.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), AppInformation.class);
+            startActivity(intent);
         });
 
     }
 
     private void changePass() {
 
-        changePasscard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ChangePassword.class);
-                startActivity(intent);
-            }
+        changePasscard.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), ChangePassword.class);
+            startActivity(intent);
         });
 
     }
@@ -146,11 +139,13 @@ public class UserFragment extends Fragment {
     private void Role() {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
         String email = user.getEmail();
         refEmail02.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String gEmail = dataSnapshot.getValue(String.class);
+                assert email != null;
                 if(email.equals(gEmail)){
                     configCard.setClickable(false);
                     shareCard.setClickable(false);
@@ -167,6 +162,7 @@ public class UserFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String gEmail = dataSnapshot.getValue(String.class);
+                assert email != null;
                 if(email.equals(gEmail)){
                     configCard.setClickable(false);
                     shareCard.setClickable(false);
@@ -183,24 +179,18 @@ public class UserFragment extends Fragment {
 
     private void share() {
 
-        shareCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ShareDevice.class);
-                startActivity(intent);
-            }
+        shareCard.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), ShareDevice.class);
+            startActivity(intent);
         });
 
     }
 
     private void config() {
 
-        configCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), SelectBoardConfig.class);
-                startActivity(intent);
-            }
+        configCard.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), SelectBoardConfig.class);
+            startActivity(intent);
         });
 
     }
@@ -234,14 +224,11 @@ public class UserFragment extends Fragment {
     }
 
     private void logout() {
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getActivity(), Login.class);
-                startActivity(intent);
-                getActivity().finishAffinity();
-            }
+        logout.setOnClickListener(view -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(getActivity(), Login.class);
+            startActivity(intent);
+            requireActivity().finishAffinity();
         });
     }
 }
