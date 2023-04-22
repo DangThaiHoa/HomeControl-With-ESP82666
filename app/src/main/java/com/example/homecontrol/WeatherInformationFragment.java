@@ -155,7 +155,7 @@ public class WeatherInformationFragment extends Fragment {
                             // whenever data at this location is updated.
                             Float getTemp = dataSnapshot.getValue(Float.class);
                             assert getTemp != null;
-                            String Temperature = getTemp.toString() + R.string.symbol_celsius;
+                            String Temperature = getTemp + "\u2103";
                             temp.setText(Temperature);
                             tempPro.setProgress(Math.round(getTemp));
                             if(getTemp < 20){
@@ -179,7 +179,7 @@ public class WeatherInformationFragment extends Fragment {
                             // whenever data at this location is updated.
                             Float getHum = dataSnapshot.getValue(Float.class);
                             assert getHum != null;
-                            String Humanity = getHum.toString() + R.string.symbol_humidity;
+                            String Humanity = getHum + "%";
                             hum.setText(Humanity);
                             humPro.setProgress(Math.round(getHum));
                             if(getHum < 40){

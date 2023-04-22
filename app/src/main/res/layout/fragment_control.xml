@@ -110,6 +110,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Tự Động"
+                                android:gravity="center"
                                 android:fontFamily="@font/muli_black"
                                 android:background="@color/green" />
 
