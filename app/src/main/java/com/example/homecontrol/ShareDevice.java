@@ -66,7 +66,7 @@ public class ShareDevice extends AppCompatActivity {
                 String gEmail = dataSnapshot.getValue(String.class);
                 assert gEmail != null;
                 if (gEmail.equals("null")) {
-                    email1.setText(R.string.default_label_share_email_1);
+                    email1.setText(R.string.default_label_share_email_0);
                     cou1 = 0;
                 } else {
                     email1.setText(gEmail);
